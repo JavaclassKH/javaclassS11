@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS11.dao.NoticeDAO">
+<!-- select -->	
+	<select id="getNoticeBoardList" resultType="com.spring.javaclassS11.vo.NoticeVO">
+		select * from noticeBoard order by idx desc limit #{pageVo.startIndexNo},#{pageVo.pageSize};
+	</select>
+	
+	<select id="getNoticeBoardContent" resultType="com.spring.javaclassS11.vo.NoticeVO">
+		select * from noticeBoard where idx = #{idx};
+	</select>
+	
+	<select id="totRecCnt" resultType="int">
+		select count(*) from noticeBoard;
+	</select>
+	
+	
+	
+	
+
+
+<!-- insert -->	
+	<insert id="setNoticeInput">
+		insert into noticeBoard values (default,#{vo.mid},#{vo.nickName},default,#{vo.noticeTitle},#{vo.noticeContent},default);
+	</insert>
+
+<!-- update -->	
+	<update id="setReadNumPlus">
+		update noticeBoard set noticeReadNum = noticeReadNum + 1 where idx = #{idx};
+	</update>
+	
+	<update id="setNoticeUpdate">
+		update noticeBoard set noticeTitle = #{vo.noticeTitle}, noticeContent = #{vo.noticeContent} where idx = ${vo.idx};
+	</update>
+
+
+
+
+<!-- delete -->	
+
+
+
+
+
+</mapper>

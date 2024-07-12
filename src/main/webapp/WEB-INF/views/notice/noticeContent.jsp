@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
-  <link rel="stylesheet" href="ctp/resources/css/bodyLeftRight.css">
+  <link rel="stylesheet" href="${ctp}/resources/css/bodyLeftRight.css">
 <title>Second DIVE - noticeContent</title>
 <style>
 	.btns .rightBtns{
@@ -40,7 +40,7 @@
 	  <h3><b>전체공지</b></h3>
 	  <div style="margin-top: 2px;">
 	  	${vo.nickName} &nbsp;&nbsp;&nbsp; 조회수 ${vo.noticeReadNum} &nbsp;&nbsp; 
-	  	작성날짜 ${fn:substring(vo.noticeWDate,2,16)} &nbsp;&nbsp; 조회수 ${vo.noticeReadNum}
+	  	작성날짜 ${fn:substring(vo.noticeWDate,2,16)} &nbsp;&nbsp; 
 	  </div><br/><br/><br/><br/>
 	  <div>
 	  	${vo.noticeContent}

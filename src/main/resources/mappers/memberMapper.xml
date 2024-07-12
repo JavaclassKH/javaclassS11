@@ -3,14 +3,16 @@
 <mapper namespace="com.spring.javaclassS11.dao.MemberDAO">
 <!-- select -->	
 	<select id="getMemberIdCheck" resultType="com.spring.javaclassS11.vo.MemberVO">
-		SELECT * FROM memberSS WHERE mid = #{mid};
+		SELECT *, timestampdiff(day, blockStartDate, blockEndDate) as blockDate_diff FROM memberSS WHERE mid = #{mid};
 	</select>
 	
 	<select id="getMemberNickCheck" resultType="com.spring.javaclassS11.vo.MemberVO">
 		SELECT * FROM memberSS WHERE nickName = #{nickName};
 	</select>
 
-
+	<select id="getDateBigyo" resultType="String">		
+		SELECT lastLoginDate FROM memberSS WHERE mid = #{mid};
+	</select>
 
 <!-- insert -->	
 	<insert id="setMemberJoin">
@@ -22,10 +24,17 @@
 
 
 <!-- update -->	
+	<update id="setLastLoginDateUpdate">
+		update memberSS set lastLoginDate = #{now} where mid = #{mid};
+	</update>
 
+	<update id="setVisitCntPlus">
+		update memberSS set visitCnt = visitCnt + 1 where mid = #{mid};
+	</update>
 
-
-
+	<update id="setBlockDateOver">
+		update memberSS set blockStartDate = default, blockEndDate = default, memLevel = 3 where mid = #{mid};
+	</update>
 
 <!-- delete -->	
 

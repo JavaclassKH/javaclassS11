@@ -3,11 +3,12 @@ body {
   padding: 0;
   font-size: 14px;
   opacity: 0.8; 
+  cursor : url('${ctp}/images/c${c}.gif') 15 13, auto;  
 }
 
 .header {
   width: 100%;
-  height: 470px;
+  height: 650px;
 }
 
 .leftSide {

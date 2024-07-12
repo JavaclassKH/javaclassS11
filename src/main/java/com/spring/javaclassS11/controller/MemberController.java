@@ -1,5 +1,8 @@
 package com.spring.javaclassS11.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -34,8 +37,6 @@ public class MemberController {
 		if(mid == null || mid.equals("")) return "redirect:/message/sessionOff"; 		
 		MemberVO vo = memberService.getMemberIdCheck(mid);		
 		
-		String joinDate = vo.getJoinDate();
-		String showJoinDate = "";
 		
 		model.addAttribute("vo", vo);
 		return "member/myPage"; 
@@ -45,13 +46,52 @@ public class MemberController {
 	public String memberLoginPost(String mid, String pwd, HttpServletRequest request) { 
 		
 		MemberVO vo = memberService.getMemberIdCheck(mid);
+		
 		if(vo != null && passwordEncoder.matches(pwd, vo.getPwd())) {
+			int blockDate_diff = vo.getBlockDate_diff();
 			// 휴면회원&제제회원 로그인 방지
-			if(vo.getMemLevel() == 1) { return "redirect:/message/memberLoginRestMember"; }
-			else if(vo.getMemLevel() == 99) {	
-				int blockDate = vo.getBlockDate();
-				return "redirect:/message/memberLoginBlockMember?blockDate="+blockDate; 
+			if(vo.getMemLevel() == 1) { return "redirect:/message/memberLoginRestMember"; } // 휴면회원(메일로 재인증)
+			
+			// 제재진행회원(남은 제재기간 안내)
+			if(vo.getMemLevel() == 99 && blockDate_diff > 0) {
+				System.out.println("제재진행회원(남은 제재기간 안내)");
+				return "redirect:/message/memberLoginBlockMember?blockDate="+blockDate_diff;
 			}
+			
+			// 제재기간 종료회원
+			if(blockDate_diff <= 0) {
+				if(vo.getMemLevel() == 99 && vo.getBlockCnt() >= 3) {
+					System.out.println("제재종료회원(제재기간 종료&제제횟수 3회 이상)");
+					return "redirect:/message/memberBlockCntOverThree?mid="+mid;
+				}
+				else if(vo.getMemLevel() == 99 && vo.getBlockCnt() <= 2) {
+					System.out.println("제재종료회원(제재 종료, 로그인 허용)");
+					memberService.setBlockDateOver(mid);
+				}
+			}
+			
+			
+			/*
+			else if(vo.getMemLevel() == 99) {	
+				
+				// 제제기간이 전부 끝난 뒤 제재횟수가 3번 이상인 회원의 자격심사(로그인 방지)
+				if(vo.getBlockCnt() >= 3 && blockDate_diff <= 0) {
+					System.out.println("제제횟수 3번 이상");
+					return "redirect:/message/memberBlockCntOverThree?mid="+mid;
+				}
+				// 제재종료회원(제재기간 종료&제제횟수 3회 미만)
+				else if(blockDate_diff <= 0 && vo.getBlockCnt() < 3) {
+					System.out.println("제제횟수 3번 미만");
+					memberService.setBlockDateOver(mid);
+				}
+				// 제재회원(남은 제재기간 안내)
+				else {
+					System.out.println("제제기간 남음");
+					return "redirect:/message/memberLoginBlockMember?blockDate="+blockDate_diff; 
+				}
+			}
+			*/
+				
 			
 			// 로그인 성공 시 세션처리 
 			HttpSession session = request.getSession();
@@ -66,6 +106,14 @@ public class MemberController {
 			else if(vo.getMemLevel() == 112) strLevel = "관리자";
 			else if(vo.getMemLevel() == 113) strLevel = "전체관리자";
 			else if(vo.getMemLevel() == 114) strLevel = "대표운영자";
+			
+		      
+			LocalDateTime now = LocalDateTime.now();        
+
+			String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));        
+			
+			memberService.setVisitCntPlus(mid, formatedNow);  // 로그인시 최종접속일 확인하여 방문횟수 증가처리
+			memberService.setLastLoginDateUpdate(formatedNow, mid);  // 방문횟수 증가여부 확인, 처리 후 최종접속일 업데이트
 			
 			
 			session.setAttribute("sMid", vo.getMid());
@@ -86,9 +134,35 @@ public class MemberController {
 		return "redirect:/message/memberLogoutOk?mid="+mid; 
 	}
 	
+	@RequestMapping(value = "/member/memberJoinAgreement" , method = RequestMethod.GET)
+	public String memberJoinAgreementGet() { return "member/memberJoinAgreement"; }
+	
 	@RequestMapping(value = "/member/memberJoin" , method = RequestMethod.GET)
 	public String memberJoinGet() { return "member/memberJoin"; }
 	
+	@RequestMapping(value = "/member/memberJoin" , method = RequestMethod.POST)
+	public String memberJoinPost(MemberVO vo) { 
+		int res = 0;
+		
+		if(vo.getMemberImage().equals("") || vo.getMemberImage() == null) vo.setMemberImage("eImg.jpg");
+		
+		vo.setPwd(passwordEncoder.encode(vo.getPwd()));
+		String imsiTel = vo.getTel();
+		String tel1 = imsiTel.substring(0, 3);
+		String tel2 = imsiTel.substring(3, 7);
+		String tel3 = imsiTel.substring(7, 11);
+		
+		String tel = tel1 + "-" + tel2 + "-" + tel3;
+		vo.setTel(tel);
+		
+		// 회원사진저장(서비스 객체에서 처리후 저장)		
+		res = memberService.setMemberJoin(vo);
+		
+		if(res != 0) return "redirect:/message/memberJoinOk"; 
+		else return "redirect:/message/memberJoinNo"; 
+	}
+	
+	// 회원가입 시 아이디 체크
 	@ResponseBody
 	@RequestMapping(value = "/member/memberIdCheck" , method = RequestMethod.POST)
 	public String memberIdCheckPost(String mid) {
@@ -103,6 +177,7 @@ public class MemberController {
 		return res+"";	
 	}	
 	
+	// 회원가입 시 닉네임 체크
 	@ResponseBody
 	@RequestMapping(value = "/member/memberNickCheck" , method = RequestMethod.POST)
 	public String memberNickCheckPost(String nickName) {
@@ -117,19 +192,14 @@ public class MemberController {
 		return res+"";	
 	}	
 	
-	@RequestMapping(value = "/member/memberJoin" , method = RequestMethod.POST)
-	public String memberJoinPost(MemberVO vo) { 
-		int res = 0;
+	@RequestMapping(value = "/member/memberInfoUpdate" , method = RequestMethod.GET)
+	public String memberInfoUpdateGet(Model model, HttpSession session) { 
+		String mid = (String)session.getAttribute("sMid");
 		
-		if(vo.getMemberImage().equals("") || vo.getMemberImage() == null) vo.setMemberImage("eImg.jpg");
+		MemberVO vo = memberService.getMemberIdCheck(mid);
 		
-		vo.setPwd(passwordEncoder.encode(vo.getPwd()));
-		System.out.println("tel : " + vo.getTel());
-		// 회원사진저장(서비스 객체에서 처리후 저장)		
-		res = memberService.setMemberJoin(vo);
-		
-		if(res != 0) return "redirect:/message/memberJoinOk"; 
-		else return "redirect:/message/memberJoinNo"; 
+		model.addAttribute("vo", vo);
+		return "member/memberInfoUpdate"; 
 	}
 	
 	

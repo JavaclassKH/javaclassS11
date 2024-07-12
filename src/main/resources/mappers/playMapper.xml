@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS11.dao.PlayDAO">
+<!-- select -->	
+	<select id="getRandomSongRecommandSearch" resultType="com.spring.javaclassS11.vo.RandomSongRecommandVO">
+		select * from randomSongRecommand where recVibe like concat('%',#{search},'%') order by rand() limit 1;
+	</select>
+	
+	<select id="getRandomSongRecommand" resultType="com.spring.javaclassS11.vo.RandomSongRecommandVO">
+		select * from randomSongRecommand order by rand() limit 1;
+	</select>
+	
+	<select id="getIVEInfoQuizList" resultType="com.spring.javaclassS11.vo.IVEQuizVO">
+		select * from IVEQuiz where quizPart = #{part} order by rand() limit 1;		
+	</select>
+
+
+
+<!-- insert -->	
+
+
+
+
+
+<!-- update -->	
+
+
+
+
+
+<!-- delete -->	
+
+
+
+
+
+</mapper>

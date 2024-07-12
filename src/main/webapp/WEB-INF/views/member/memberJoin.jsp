@@ -9,7 +9,7 @@
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script src = "${ctp}/js/woo.js"></script>
-  <link rel="stylesheet" href="ctp/resources/css/bodyLeftRight.css">
+  <link rel="stylesheet" href="${ctp}/resources/css/bodyLeftRight.css">
 <title>Second DIVE - MemberJoin</title>
 <script>
 
@@ -22,8 +22,8 @@
 	const regName= /^[가-힣]{2,6}$/;   
 	// 아이디: 영문 대/소문자와 숫자만을 사용한 3~12자
 	const regMid= /^[A-Za-z0-9]{3,12}$/;  
-	// 비밀번호:  대문자 1개이상, 소문자 1개이상, 숫자 1개이상, 특수문자 1개이상을 포함한 12~18자
-	const regPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{12,18}$/; 
+	// 비밀번호:  대문자 1개이상, 소문자 1개이상, 숫자 1개이상, 특수문자 1개이상을 포함한 10~18자
+	const regPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{10,18}$/; 
 	//const regPwd = /^[0-9]{3,10}$/;   // 프로젝트용 임시 정규식!
 	// 닉네임: 영문/대 소문자, 한글, 숫자만을 사용한 4~12자
 	const regNickName = /^[A-Za-z가-힣0-9]{4,12}$/;  
@@ -55,10 +55,12 @@
 						if(res != "0") {
 							alert("이미 사용중인 아이디입니다.");
 							memberJoinForm.mid.focus();
+							$("#mid").val("");
 							return false;
 						}
 						else {
 							alert("사용 가능한 아이디입니다.");
+							$("#mid").attr("readonly", true);
 							idCheckSw = 1;
 						}
 				  },
@@ -68,6 +70,12 @@
 	   		});    		
     	}
     }
+	
+	// 아이디 중복체크 후 다시 설정할 때
+	function midReset() {
+		$("#mid").removeAttr("readonly");
+		$("#mid").val("");
+	}
 	
 	// 닉네임 중복체크
 	function nickCheck() {
@@ -87,9 +95,12 @@
 						if(res != "0") {
 							alert("이미 사용중인 닉네임입니다.");
 							memberJoinForm.nickName.focus();
+							$("#nickName").val("");
+							return false;
 						}
 						else {
 							alert("사용 가능한 닉네임입니다.");
+							$("#nickName").attr("readonly", true);
 							nickNameCheckSw = 1;
 						}
 					},
@@ -98,6 +109,12 @@
 					}
 	    	});    		
 		}
+	}
+	
+	// 아이디 중복체크 후 다시 설정할 때
+	function nickReset() {
+		$("#nickName").removeAttr("readonly");
+		$("#nickName").val("");
 	}
 
 	// 회원가입 버튼 입력시
@@ -129,7 +146,7 @@
 		}
 		else if(!pwd.match(regPwd)) {
 			alert("비밀번호 형식에 맞게 작성해주세요!");
-		  alert("대문자 1개이상, 소문자 1개이상, 숫자 1개이상, 특수문자 1개이상을 포함한 12~18자");
+		  alert("대문자 1개이상, 소문자 1개이상, 숫자 1개이상, 특수문자 1개이상을 포함한 10~18자");
 			$("#pwd").focus();					
 		} 
 		else if(!name.match(regName)) {
@@ -178,7 +195,7 @@
 <jsp:include page="/WEB-INF/views/include/leftSide.jsp" /> 
 <div class="rightSide">
   <form name="memberJoinForm" method="post" class="was-validated">
-    <h2 class="text-center"><b>Second DIVE 회원가입을 환영합니다~</b></h2>
+    <h2 class="text-center"><b>Second DIVE 회원가입 진행</b></h2>
     <br/>
     <div class="form-group"> 아이디
     	<div class="input-group"> 
@@ -186,6 +203,9 @@
 	    	<div class="input-group-append">
 			    <input type="button" value="중복확인" id="midBtn" title="아이디 중복확인" onclick="idCheck()" class="btn btn-warning" />
 	    	</div>
+	    	<div class="input-group-append">
+      		<input type="button" id="midResetBtn" title="아이디 재설정" value="재설정" onclick="midReset()" class="btn btn-info"  />
+    		</div>
     	</div>
     </div><br/>
     <div class="form-group"> 비밀번호
@@ -197,7 +217,10 @@
     	<div class="input-group"> 
 	      <input type="text" class="form-control" name="nickName" id="nickName" title="닉네임을 입력하세요" placeholder="닉네임" required />
     		<div class="input-group-append">
-      		<input type="button" id="nickNameBtn" title="닉네임 중복확인" value="중복확인" class="btn btn-warning" onclick="nickCheck()"/>
+      		<input type="button" id="nickNameBtn" title="닉네임 중복확인" value="중복확인" class="btn btn-warning" onclick="nickCheck()" />
+    		</div>
+    		<div class="input-group-append">
+      		<input type="button" id="nickNameResetBtn" title="닉네임 재설정" value="재설정" class="btn btn-info" onclick="nickReset()" />
     		</div>
     	</div>
     </div>
@@ -209,19 +232,6 @@
       <label for="email"></label>
       <div class="input-group mb-3">
         <input type="email" class="form-control" title="이메일을 정확히 입력하세요" placeholder="이메일" id="email" name="email" required />
-      </div>
-    </div>
-    <div class="form-group"> 
-      <div class="form-check-inline">
-        <span class="input-group-text">성별</span> &nbsp;&nbsp;
-        <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="gender" value="남자" checked>남자
-        </label>
-      </div>
-      <div class="form-check-inline">
-        <label class="form-check-label">
-          <input type="radio" class="form-check-input" name="gender" value="여자">여자
-        </label>
       </div>
     </div>
     <div class="form-group">생일

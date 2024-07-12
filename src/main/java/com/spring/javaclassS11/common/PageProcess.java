@@ -2,6 +2,7 @@ package com.spring.javaclassS11.common;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.javaclassS11.dao.BoardDAO;
 import com.spring.javaclassS11.dao.NoticeDAO;
 import com.spring.javaclassS11.vo.PagVO;
 
@@ -11,7 +12,8 @@ public class PageProcess {
 
 	@Autowired
 	NoticeDAO noticeDAO;
-	
+	@Autowired
+	BoardDAO boardDAO; 
 
 
 	public PagVO getTotRecCnt(int pag, int pageSize, String section, String part, String searchString) {
@@ -22,6 +24,13 @@ public class PageProcess {
 		
 		if(section.equals("noticeBoard")) {
 			if(part.equals(""))	totRecCnt = noticeDAO.totRecCnt();
+			else {
+				search = part;
+				//totRecCnt = noticeDAO.totRecCntSearch(search, searchString);
+			}
+		}
+		else if(section.equals("freeBoard")) {
+			if(part.equals(""))	totRecCnt = boardDAO.totRecCnt();
 			else {
 				search = part;
 				//totRecCnt = noticeDAO.totRecCntSearch(search, searchString);

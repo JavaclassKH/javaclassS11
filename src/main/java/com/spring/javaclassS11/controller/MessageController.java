@@ -74,6 +74,32 @@ public class MessageController {
 			model.addAttribute("msg", "전체공지 수정에 실패했습니다");
 			model.addAttribute("url", "notice/noticeBoard");
 		}
+		else if(msgFlag.equals("adminMemberMidNickNameChangeOk")) {
+			model.addAttribute("msg", "회원 아이디/닉네임이 수정되었습니다");
+			model.addAttribute("url", "admin/adminMemberList");
+		}
+		else if(msgFlag.equals("adminMemberMidNickNameChangeNo")) {
+			model.addAttribute("msg", "회원 아이디/닉네임 수정에 실패했습니다");
+			model.addAttribute("url", "admin/adminMemberList");
+		}
+		else if(msgFlag.equals("adminMemberSearchNo")) {
+			model.addAttribute("msg", "검색하신 아이디/닉네임에 해당하는 회원이 존재하지 않습니다");
+			model.addAttribute("url", "admin/adminMemberList");
+		}
+		else if(msgFlag.equals("adminMemberBlockManagementOk")) {
+			model.addAttribute("msg", "재제관리시스템이 정상적으로 실행되었습니다");
+			model.addAttribute("url", "admin/adminMemberList");
+		}
+		else if(msgFlag.equals("adminMemberBlockManagementNo")) {
+			model.addAttribute("msg", "[ERROR]재제관리시스템이 정상적으로 실행되지 않았습니다");
+			model.addAttribute("url", "admin/adminMemberList");
+		}
+		else if(msgFlag.equals("memberBlockCntOverThree")) {
+			System.out.println("여기서 왜 더 안가 진짜 왜");
+			model.addAttribute("msg", mid + "님은 현재 제재횟수 3회 초과로 회원자격 심사가 진행중입니다\\n심사기간중에는 로그인이 불가능합니다");
+			model.addAttribute("url", "");
+		}
+		
 		
 		
 		

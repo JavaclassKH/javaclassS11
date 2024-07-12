@@ -7,9 +7,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
-  <link rel="stylesheet" href="ctp/resources/css/bodyLeftRight.css">
+  <link rel="stylesheet" href="${ctp}/resources/css/bodyLeftRight.css">
 <title>Second DIVE - MemberLogin</title>
 <style>
+	body {
+	  margin: 0;
+	  padding: 0;
+	  font-size: 14px;
+	  opacity: 0.8; 
+	  cursor : url('${ctp}/images/c${c}.gif') 15 13, auto;  
+	}
+
 	#loginTitle {
 		font-size: 3em; 
 	}

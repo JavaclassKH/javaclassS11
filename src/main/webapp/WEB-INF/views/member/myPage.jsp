@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
-  <link rel="stylesheet" href="ctp/resources/css/bodyLeftRight.css">
+  <link rel="stylesheet" href="${ctp}/resources/css/bodyLeftRight.css">
 <title>Second DIVE - myPage</title>
 <style>
 	.infoShow {
@@ -36,8 +36,8 @@
   	<p>작성댓글 수 :&nbsp; ${vo.totReplyWriteCnt}</p><br/><br/><br/>
   	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	  <div class="btns">
-	  	<button onclick="" class="btn btn-danger">정보수정</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	  	<button onclick="" class="btn btn-warning">비밀번호변경</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	  	<a href="${ctp}/member/memberInfoUpdate" class="btn btn-danger mr-4">정보수정</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	  	<button onclick="" class="btn btn-warning mr-4">비밀번호변경</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	  	<button onclick="location.href='${ctp}/';" class="btn btn-info">로비</button>
 	  </div>
 	</div> 

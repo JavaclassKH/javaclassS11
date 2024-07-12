@@ -12,4 +12,12 @@ public interface MemberDAO {
 
 	public int setMemberJoin(@Param("vo") MemberVO vo);
 
+	public void setLastLoginDateUpdate(@Param("now") String now,@Param("mid") String mid);
+
+	public String getDateBigyo(@Param("mid") String mid);
+
+	public void setVisitCntPlus(@Param("mid") String mid);
+
+	public void setBlockDateOver(@Param("mid") String mid);
+
 }

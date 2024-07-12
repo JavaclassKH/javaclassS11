@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class MemberVO {
 
+	// Member 데이터베이스 기본 컬럼
 	private int idx;
 	private String mid;
 	private String pwd;
@@ -27,8 +28,25 @@ public class MemberVO {
 	private int totReplyWriteCnt;
 	private int IVEQuizScore;
 	private int memLevel;
-	private int blockDate;
+	private String blockStartDate;
+	private String blockEndDate;
 	private int blockCnt;
 	private String part;
 
+	// 제재회원 날짜계산 필드 (SQL에서 비교)
+	private int blockDate_diff;
+	
+	
+	
+	
 }
+
+
+
+
+
+
+
+
+
+

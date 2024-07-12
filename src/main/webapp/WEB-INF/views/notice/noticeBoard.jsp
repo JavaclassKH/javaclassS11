@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
-  <link rel="stylesheet" href="ctp/resources/css/bodyLeftRight.css">
+  <link rel="stylesheet" href="${ctp}/resources/css/bodyLeftRight.css">
 <title>Second DIVE - noticeBoard</title>
 <style>
 	.tab {

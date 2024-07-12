@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="ctp" value="${pageContext.request.contextPath}"/>
+<c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -11,11 +11,13 @@
 <title>Second DIVE - lobby</title>
 
 <style>
-  body {
-    font-size: 14px;
-    opacity: 0.8;
-  	cursor : url('${ctp}/images/c${c}.gif') 15 13, auto;    
-  }
+	body {
+	  margin: 0;
+	  padding: 0;
+	  font-size: 14px;
+	  opacity: 0.8; 
+	  cursor : url('${ctp}/images/c${c}.gif') 15 13, auto;  
+	}
 
   .MainWindow {
     text-align: center;

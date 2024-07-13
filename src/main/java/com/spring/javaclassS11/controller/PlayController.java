@@ -1,7 +1,8 @@
 package com.spring.javaclassS11.controller;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaclassS11.service.PlayService;
 import com.spring.javaclassS11.vo.IVEQuizVO;
-import com.spring.javaclassS11.vo.MemberVO;
 import com.spring.javaclassS11.vo.RandomSongRecommandVO;
 
 @Controller
@@ -90,23 +90,37 @@ public class PlayController {
 	public String iframeIVEInfoQuizGet(@PathVariable(name="check") String check, HttpSession session, Model model,
 		@RequestParam(name="score", defaultValue = "1", required = false) int score) {
 		IVEQuizVO vo = null;
-		int i = 0;
+		
+		
 		if(check.equals("before")) return "play/IVEInfoQuiz";
 		else if(check.equals("start")){
-			ArrayList<String> quizAnswers = (ArrayList<String>) session.getAttribute("quizAnswer");
-			if(quizAnswers == null) { 
-				vo = playService.getIVEInfoQuizList("IVEInfoQuiz");  
-				quizAnswers = new ArrayList<String>(); 
-				quizAnswers.add(vo.getQuizAnswer()); 
+			//ArrayList<String> quizAnswers = (ArrayList<String>) session.getAttribute("quizAnswer");
+			Set<String> quizAnswers = (Set<String>) session.getAttribute("quizAnswer");
+      if (quizAnswers == null) {
+        quizAnswers = new HashSet<String>();
+        session.setAttribute("quizAnswer", quizAnswers);  // 세션에 저장
+      
+				System.out.println("첫번째 문제만 여기!");
+				Iterator<String> iter = quizAnswers.iterator();	
+				while(iter.hasNext()) {
+			    System.out.println(iter.next());
+				}
 			}
 			else {  
-				int nowScore = (int)session.getAttribute("score");
-				if(nowScore != 0) session.setAttribute("score", nowScore + score);
+				System.out.println("두번째 문제 이후는 다 여기!");
+				Iterator<String> iter = quizAnswers.iterator();	
+				while(iter.hasNext()) {
+			    System.out.println(iter.next());
+				}
+			Integer nowScore = (Integer) session.getAttribute("score");
+			System.out.println("현재 점수 : " + nowScore);
+	    if (nowScore == null) nowScore = 0;
+	    if (nowScore != 0) session.setAttribute("score", nowScore + score);
  reroll:while(quizAnswers.size() < 11) { 
 					vo = playService.getIVEInfoQuizList("IVEInfoQuiz");
 					if(quizAnswers.contains(vo.getQuizAnswer())) continue reroll; 
 					else {
-						quizAnswers = new ArrayList<String>(); 
+						//quizAnswers = new ArrayList<String>(); 
 						quizAnswers.add(vo.getQuizAnswer()); 
 						break; 
 					}

@@ -87,8 +87,14 @@
 </head>
 <body>
 	<div id="before">
-		<p style="margin-top: 20px; margin-bottom: 200px; text-align: center;">아이브 상식 퀴즈</p>
-		<div style="text-align: center;"><button onclick="start()" class="btn btn-light btn-lg">퀴즈시작</button></div>
+		<div>
+			<img src="${ctp}/images/IVEInfoQuizMain.png" width="100%" height="65%" style="margin-left: 20px;" />
+			<p style="margin-top: 20px; margin-bottom: 200px; text-align: center;">아이브 상식 퀴즈</p>
+			<div style="text-align: center;">
+			<button onclick="start()" class="btn btn-light mr-5">퀴즈시작</button>
+			<a href="location.href='${ctp}/play/quizMain/main';" class="btn btn-dark ml-4">퀴즈파크</a>
+			</div>
+		</div>
 	</div>
 	<div id="start" style="display: none;">
 		<p style="margin-top: 20px; margin-bottom: 150px;">

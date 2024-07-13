@@ -6,12 +6,27 @@
 <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 <style>
 	.text-center {
-		margin-bottom: 150px;
+		margin-bottom: 45px;
 	}
 	
 	.btns {
 		text-align: center;
-		margin-right: 5px;
+	}
+	
+	#startBtn1 {
+		margin-right: 40px;
+	}
+	
+	#startBtn2 {
+		margin-right: 40px;
+	}
+	
+	#startBtn3 {
+		margin-right: 40px;
+	}
+	
+	#startBtn4 {
+		margin-right: 40px;
 	}
 	
 </style>	
@@ -26,13 +41,16 @@
 </script>
 </head>
 <body>
-	<div class="text-center text-info"><font size="40px">IVE 상식 퀴즈~</font></div>
-	<div class="btns">
-		<button onclick="quizStart('IVEInfoQuiz')" id="startBtn" class="btn btn-link">아이브상식</button>
-		<button onclick="quizStart('IVELyricsQuiz')" id="startBtn" class="btn btn-link">아이브가사</button>
-		<button onclick="quizStart('commonQuiz')" id="startBtn" class="btn btn-link">일반상식</button>
-		<button onclick="quizStart('nonsenseQuiz')" id="startBtn" class="btn btn-link">넌센스</button>
-		<button onclick="quizFinish()" id="finishBtn" class="btn btn-link">메인으로</button>
+	<div>
+		<img src="${ctp}/images/quizMainImage.jpg" width="100%" height="70%" />
+		<div class="text-center text-info"><font size="40px">Quiz Time</font></div>
+		<div class="btns">
+			<button onclick="quizStart('IVEInfoQuiz')" id="startBtn1" class="btn btn-light">아이브상식</button>
+			<button onclick="quizStart('IVELyricsQuiz')" id="startBtn2" class="btn btn-light">아이브가사</button>
+			<button onclick="quizStart('commonQuiz')" id="startBtn3" class="btn btn-light">일반상식</button>
+			<button onclick="quizStart('nonsenseQuiz')" id="startBtn4" class="btn btn-light">넌센스</button>
+			<button onclick="window.parent.location.href='${ctp}/member/myPage';" class="btn btn-dark">마이페이지</button>
+		</div>
 	</div>
 </body>
 </html>

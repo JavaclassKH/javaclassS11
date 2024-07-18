@@ -20,4 +20,6 @@ public interface MemberDAO {
 
 	public void setBlockDateOver(@Param("mid") String mid);
 
+	public String memberMidFind(@Param("nickName") String nickName,@Param("email") String email);
+
 }

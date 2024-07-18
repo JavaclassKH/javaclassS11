@@ -16,5 +16,7 @@ public interface MemberService {
 
 	public void setBlockDateOver(String mid);
 
+	public String memberMidFind(String nickName, String email);
+
 
 }

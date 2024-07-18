@@ -9,7 +9,7 @@ import com.spring.javaclassS11.vo.PagVO;
 
 public interface NoticeDAO {
 
-	public int totRecCnt();
+	public int totRecCnt(@Param("part") String part);
 
 	public ArrayList<NoticeVO> getNoticeBoardList(@Param("pageVo") PagVO pageVo);
 

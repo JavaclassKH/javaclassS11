@@ -36,9 +36,8 @@
 <script>
 	'use strict';
 	
-	function pageSizeCheck() {
-		let pageSize = $("#pageSize").val();
-		location.href="${ctp}/board/freeBoard?pageSize="+pageSize;
+	function pageSizeCheck(pageSize) {
+		location.href="${ctp}/board/freeBoard?pag="+${pageVo.pag}+"&pageSize="+pageSize;
 	}
 
 </script>
@@ -50,14 +49,14 @@
 	<h1 class="h"><b><font size="7">자유게시판</font></b></h1><br/>
 	<h5 class="h">Second DIVE 자유게시판입니다</h5><br/>
 	<div id="write">
-		<button onclick="location.href='${ctp}/board/boardInput';" id="writeBtn" class="btn btn-light">글쓰기</button>
+		<button onclick="location.href='${ctp}/board/freeBoardInput';" id="writeBtn" class="btn btn-light">글쓰기</button>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-    <select name="pageSize" id="pageSize" onchange="pageSizeCheck()">
-      <option ${pageVo.pageSize == 5  ? "selected" : ""}>5개씩 보기</option>
-      <option ${pageVo.pageSize == 10 ? "selected" : ""}>10개씩 보기</option>
-      <option ${pageVo.pageSize == 15 ? "selected" : ""}>15개씩 보기</option>
-      <option ${pageVo.pageSize == 20 ? "selected" : ""}>20개씩 보기</option>
-      <option ${pageVo.pageSize == 30 ? "selected" : ""}>30개씩 보기</option>
+    <select name="pageSize" id="pageSize" onchange="pageSizeCheck(this.value)">
+      <option ${pageVo.pageSize == 5  ? "selected" : ""} value="5">5개씩 보기</option>
+      <option ${pageVo.pageSize == 10 ? "selected" : ""} value="10">10개씩 보기</option>
+      <option ${pageVo.pageSize == 15 ? "selected" : ""} value="15">15개씩 보기</option>
+      <option ${pageVo.pageSize == 20 ? "selected" : ""} value="20">20개씩 보기</option>
+      <option ${pageVo.pageSize == 30 ? "selected" : ""} value="30">30개씩 보기</option>
     </select>
 	</div>
   <div class="tab">
@@ -80,7 +79,7 @@
 		  			</td>
 		  			<td scope="row">
 		  				<a href="${ctp}/board/freeBoardContent?idx=${vo.idx}">
-			  				${vo.title}
+			  				${vo.freeBoardTitle}
 		  				</a>
 		  			</td>
 		  			<td scope="row">
@@ -102,14 +101,14 @@
   <!-- 블록페이지 시작 -->
 		<br/><br/><div class="text-center">
 		  <ul class="pagination justify-content-center">
-			  <c:if test="${pageVo.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/notice/noticeBoard?pag=1&pageSize=${pageVo.pageSize}">첫페이지</a></li></c:if>
-			  <c:if test="${pageVo.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/notice/noticeBoard?pag=${(pageVo.curBlock-1)*pageVo.blockSize + 1}&pageSize=${pageVo.pageSize}">이전블록</a></li></c:if>
+			  <c:if test="${pageVo.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/freeBoard?pag=1&pageSize=${pageVo.pageSize}">첫페이지</a></li></c:if>
+			  <c:if test="${pageVo.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/freeBoard?pag=${(pageVo.curBlock-1)*pageVo.blockSize + 1}&pageSize=${pageVo.pageSize}">이전블록</a></li></c:if>
 			  <c:forEach var="i" begin="${(pageVo.curBlock*pageVo.blockSize)+1}" end="${(pageVo.curBlock*pageVo.blockSize) + pageVo.blockSize}" varStatus="st">
-			    <c:if test="${i <= pageVo.totPage && i == pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="${ctp}/notice/noticeBoard?pag=${i}&pageSize=${pageVo.pageSize}">${i}</a></li></c:if>
-			    <c:if test="${i <= pageVo.totPage && i != pag}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/notice/noticeBoard?pag=${i}&pageSize=${pageVo.pageSize}">${i}</a></li></c:if>
+			    <c:if test="${i <= pageVo.totPage && i == pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="${ctp}/board/freeBoard?pag=${i}&pageSize=${pageVo.pageSize}">${i}</a></li></c:if>
+			    <c:if test="${i <= pageVo.totPage && i != pag}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/freeBoard?pag=${i}&pageSize=${pageVo.pageSize}">${i}</a></li></c:if>
 			  </c:forEach>
-			  <c:if test="${pageVo.curBlock < pageVo.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/notice/noticeBoard?pag=${(pageVo.curBlock+1)*pageVo.blockSize+1}&pageSize=${pageVo.pageSize}">다음블록</a></li></c:if>
-			  <c:if test="${pageVo.pag < pageVo.totPage}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/notice/noticeBoard?pag=${pageVo.totPage}&pageSize=${pageVo.pageSize}">마지막페이지</a></li></c:if>
+			  <c:if test="${pageVo.curBlock < pageVo.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/freeBoard?pag=${(pageVo.curBlock+1)*pageVo.blockSize+1}&pageSize=${pageVo.pageSize}">다음블록</a></li></c:if>
+			  <c:if test="${pageVo.pag < pageVo.totPage}"><li class="page-item"><a class="page-link text-secondary" href="${ctp}/board/freeBoard?pag=${pageVo.totPage}&pageSize=${pageVo.pageSize}">마지막페이지</a></li></c:if>
 		  </ul>
 		</div>
 	<!-- 블록페이지 끝 -->

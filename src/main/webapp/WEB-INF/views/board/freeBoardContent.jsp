@@ -12,7 +12,7 @@
 <title>Second DIVE - freeBoardContent</title>
 <style>
 	.btns .rightBtns{
-		float: right;s
+		float: right;
 	}
 </style>
 <script>
@@ -27,13 +27,13 @@
 <jsp:include page="/WEB-INF/views/include/leftSide.jsp" /> 
 <div class="rightSide"><br/>
 	  <div class="btns">
-		  <a href="${ctp}/notice/noticeBoard?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}" class="btn btn-light mr-2">목록</a>
-		  <button onclick="${ctp}/notice/noticeBoard" class="btn btn-light mr-2">이전글</button>
-		  <button onclick="${ctp}/notice/noticeBoard" class="btn btn-light">다음글</button>
+		  <a href="${ctp}/board/freeBoard?pag=${pageVo.pag}&pageSize=${pageVo.pageSize}" class="btn btn-light mr-2">목록</a>
+		  <button onclick="${ctp}/board/freeBoard" class="btn btn-light mr-2">이전글</button>
+		  <button onclick="${ctp}/board/freeBoard" class="btn btn-light">다음글</button>
 	  	<c:if test="${sMid == vo.mid}">
 		  	<div class="rightBtns">
-				 	<button onclick="location.href='${ctp}/notice/noticeUpdate?idx=${vo.idx}'" class="btn btn-light mr-2">수정</button>
-				 	<button onclick="location.href='${ctp}/notice/noticeDelete?idx=${vo.idx}'" class="btn btn-light">삭제</button>
+				 	<button onclick="location.href='${ctp}/board/freeBoardUpdate?idx=${vo.idx}'" class="btn btn-light mr-2">수정</button>
+				 	<button onclick="location.href='${ctp}/board/freeBoardDelete?idx=${vo.idx}'" class="btn btn-light">삭제</button>
 		  	</div>
 	  	</c:if>
 	  </div><hr/>
@@ -42,9 +42,7 @@
 	  	${vo.nickName} &nbsp;&nbsp;&nbsp; 조회수 ${vo.readNum} &nbsp;&nbsp; 
 	  	작성날짜 ${fn:substring(vo.writeDate,2,16)} &nbsp;&nbsp; 
 	  </div><br/><br/><br/><br/>
-	  <div>
-	  	${vo.content}
-	  </div><br/><hr/>
+	  <div>${vo.freeBoardContent}</div><br/><hr/>
 </div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />  
 </body>

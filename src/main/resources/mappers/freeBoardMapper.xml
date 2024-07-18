@@ -3,20 +3,36 @@
 <mapper namespace="com.spring.javaclassS11.dao.BoardDAO">
 <!-- select -->	
 	<select id="getFreeBoardList" resultType="com.spring.javaclassS11.vo.FreeBoardVO">
-		select * from freeBoard order by idx desc;
+		select * from freeBoard order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 
 	<select id="totRecCnt" resultType="int">
+	<if test="part == 'freeBoard'">
 		select count(*) from freeBoard;
+	</if>
+	<if test="part == 'fromIVE'">
+		select count(*) from fromIVE;
+	</if>
 	</select>
 	
 	<select id="getFreeBoardContent" resultType="com.spring.javaclassS11.vo.FreeBoardVO">
-		select * from freeBoard where idx = #{idx} order by idx desc;
+		select * from freeBoard where idx = #{idx};
+	</select>
+	
+	<select id="getFromIVEList" resultType="com.spring.javaclassS11.vo.FromIVEVO">
+		select * from fromIVE order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	
 
 
 <!-- insert -->	
+	<insert id="setFreeBoardInput">
+		insert into freeBoard values (default,#{vo.mid},#{vo.nickName},#{vo.writerIp},#{vo.freeBoardTitle},#{vo.freeBoardContent},default,default,default,default,default);
+	</insert>
+	
+	<insert id="setFromIVEInput">
+		insert into fromIVE values (default,#{vo.fromWho},#{vo.fromIVETitle},#{vo.fromIVEContent},default);		
+	</insert>
 
 <!-- update -->	
 	

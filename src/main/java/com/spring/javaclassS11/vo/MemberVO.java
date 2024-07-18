@@ -36,7 +36,8 @@ public class MemberVO {
 	// 제재회원 날짜계산 필드 (SQL에서 비교)
 	private int blockDate_diff;
 	
-	
+	// 제재회원 제재사유 필드
+	private String blockReason;
 	
 	
 }

@@ -52,6 +52,7 @@
 			<c:if test="${vo.memLevel == 3}">정회원</c:if> 
 			<c:if test="${vo.memLevel == 2}">준회원</c:if> 
 		</p><br/> 
+		<p>이름 :&nbsp; ${vo.name}</p><br/> 
 		<p>생년월일 :&nbsp; ${vo.birthday}</p><br/> 
 		<p>연락처 :&nbsp; ${vo.tel}</p><br/> 
 		<p>주소 :&nbsp; ${vo.address}</p><br/> 

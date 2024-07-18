@@ -23,14 +23,21 @@ public class PageProcess {
 		String search = "";
 		
 		if(section.equals("noticeBoard")) {
-			if(part.equals(""))	totRecCnt = noticeDAO.totRecCnt();
+			if(part.equals(""))	totRecCnt = noticeDAO.totRecCnt("noticeBoard");
 			else {
 				search = part;
 				//totRecCnt = noticeDAO.totRecCntSearch(search, searchString);
 			}
 		}
 		else if(section.equals("freeBoard")) {
-			if(part.equals(""))	totRecCnt = boardDAO.totRecCnt();
+			if(part.equals(""))	totRecCnt = boardDAO.totRecCnt("freeBoard");
+			else {
+				search = part;
+				//totRecCnt = noticeDAO.totRecCntSearch(search, searchString);
+			}
+		}
+		else if(section.equals("fromIVE")) {
+			if(part.equals(""))	totRecCnt = boardDAO.totRecCnt("fromIVE");
 			else {
 				search = part;
 				//totRecCnt = noticeDAO.totRecCntSearch(search, searchString);

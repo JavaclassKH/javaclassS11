@@ -1,5 +1,8 @@
 package com.spring.javaclassS11.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,12 +15,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaclassS11.service.AdminService;
+import com.spring.javaclassS11.service.PlayService;
+import com.spring.javaclassS11.vo.RandomSongRecommandVO;
 
 @Controller
 public class LobbyController {
 	
+	// LobbyController는 작업 수가 적으므로 adminService를 빌려서 사용
 	@Autowired
 	AdminService adminService;
+	
+	@Autowired
+	PlayService playService;
 
 	@RequestMapping(value = "/" , method = RequestMethod.GET)
 	public String LobbyGet(Model model, HttpServletRequest request) {
@@ -26,9 +35,16 @@ public class LobbyController {
 		String master = adminService.getMasterNickName();
 		int cafeMemberCount = adminService.getCafeMemberCount();
 		int cafeVisitCount = adminService.getCafeVisitCount();
-			
 		
-			
+		Date today = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 E요일");
+		String todayStr = sdf.format(today);
+		
+		
+		RandomSongRecommandVO vo = playService.getRandomSongRecommand();
+		model.addAttribute("vo", vo);
+		model.addAttribute("todayStr", todayStr);
+		
 		session.setAttribute("sMaster", master);
 		session.setAttribute("sCafeMemberCount", cafeMemberCount);
 		session.setAttribute("sCafeVisitCount", cafeVisitCount);		

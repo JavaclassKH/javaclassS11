@@ -13,11 +13,15 @@
 	<select id="getDateBigyo" resultType="String">		
 		SELECT lastLoginDate FROM memberSS WHERE mid = #{mid};
 	</select>
+	
+	<select id="memberMidFind" resultType="String">
+		select mid from memberSS where nickName = #{nickName} and email = #{email};
+	</select>
 
 <!-- insert -->	
 	<insert id="setMemberJoin">
 		insert into memberSS values (default,#{vo.mid},#{vo.pwd},#{vo.name},#{vo.nickName},#{vo.tel},#{vo.email},#{vo.birthday},
-		#{vo.address},#{vo.memberImage},#{vo.fangirlReason},default,default,default,default,default,default,default,default,default,default);
+		#{vo.address},#{vo.memberImage},#{vo.fangirlReason},default,default,default,default,default,default,default,default,default,default,default);
 	</insert>
 
 

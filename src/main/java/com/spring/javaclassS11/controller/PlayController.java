@@ -97,44 +97,36 @@ public class PlayController {
 			//ArrayList<String> quizAnswers = (ArrayList<String>) session.getAttribute("quizAnswer");
 			Set<String> quizAnswers = (Set<String>) session.getAttribute("quizAnswer");
       if (quizAnswers == null) {
+      	vo = playService.getIVEInfoQuizList("IVEInfoQuiz");
         quizAnswers = new HashSet<String>();
+        quizAnswers.add(vo.getQuizAnswer());
         session.setAttribute("quizAnswer", quizAnswers);  // 세션에 저장
-      
-				System.out.println("첫번째 문제만 여기!");
-				Iterator<String> iter = quizAnswers.iterator();	
-				while(iter.hasNext()) {
-			    System.out.println(iter.next());
-				}
 			}
 			else {  
-				System.out.println("두번째 문제 이후는 다 여기!");
-				Iterator<String> iter = quizAnswers.iterator();	
-				while(iter.hasNext()) {
-			    System.out.println(iter.next());
-				}
-			Integer nowScore = (Integer) session.getAttribute("score");
-			System.out.println("현재 점수 : " + nowScore);
-	    if (nowScore == null) nowScore = 0;
-	    if (nowScore != 0) session.setAttribute("score", nowScore + score);
- reroll:while(quizAnswers.size() < 11) { 
-					vo = playService.getIVEInfoQuizList("IVEInfoQuiz");
-					if(quizAnswers.contains(vo.getQuizAnswer())) continue reroll; 
-					else {
-						//quizAnswers = new ArrayList<String>(); 
-						quizAnswers.add(vo.getQuizAnswer()); 
-						break; 
+				if(quizAnswers.size() != 10) {
+					Integer nowScore = (Integer) session.getAttribute("score");
+					if (nowScore == null) nowScore = 0;
+					if (nowScore != 0) session.setAttribute("score", nowScore + score);
+					reroll:while(quizAnswers.size() != 10) { 
+						vo = playService.getIVEInfoQuizList("IVEInfoQuiz");
+						if(quizAnswers.contains(vo.getQuizAnswer())) continue reroll; 
+						else {
+							quizAnswers.add(vo.getQuizAnswer()); 
+							session.setAttribute("quizAnswer", quizAnswers);
+							break; 
+						}
 					}
 				}
 			}
-			//model.addAttribute("nowScore", nowScore);
-			model.addAttribute("check", "start");
+      if(quizAnswers.size() != 10) model.addAttribute("check", "start");
+      else if(quizAnswers.size() == 10) {
+      	model.addAttribute("check", "finish");
+      	model.addAttribute("nowScore", (int)session.getAttribute("score"));
+      }
 			model.addAttribute("vo", vo);
 			return "play/IVEInfoQuiz";
 		}
-		else {
-			
-			return "play/IVEInfoQuiz";
-		}		
+		return "play/IVEInfoQuiz";
 	}
 	
 	

@@ -23,6 +23,26 @@
 				data : {c:c}
 			});
 		}	
+		
+		// 관리자모드 진입 확인
+		function adminLobby() {
+			let answer = confirm("관리자모드에 진입하시겠습니까?");
+			let sLevel = '${sLevel}';
+			if(!answer) {
+				alert("관리자모드 진입을 취소합니다");
+				location.reload();
+				return false;
+			}
+			else if(sLevel < 110) {
+				alert("관리자만 사용 가능한 기능입니다");
+			}
+			else if(sLevel == null) {		
+				alert("비정상적인 접근, 혹은 세션 만료로\n관리자모드 사용이 불가능합니다\n재로그인 후 사용해주세요");				
+			}
+			
+			location.href="${ctp}/admin/adminLobby";
+		}
+		
 	</script>
 </head>
   <div class="header">
@@ -37,24 +57,20 @@
 	      	<li><a class="btn btn-light btn-sm" href="javascript:cursorModeChange(5)">치즈</a></li> &nbsp;
 	      	<li><a class="btn btn-light btn-sm" href="javascript:cursorModeChange(6)">이랑이</a></li> &nbsp;
 	      	<li><a class="btn btn-light btn-sm" href="javascript:cursorModeChange(0)">일반</a></li> &nbsp;
-				</c:if>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+				</c:if>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       	<c:if test="${sLevel == 112 || sLevel == 113 || sLevel == 114}">
-      		<li><a href="${ctp}/admin/adminLobby?adminOn=on">관리자모드</a></li> &nbsp;&nbsp;
+      		<li><button onclick="adminLobby()" class="btn btn-link"><font color="black">관리자모드</font></button></li> &nbsp;&nbsp;
       	</c:if>
       	<c:if test="${empty sMid}">
-      		<li><a href="${ctp}/test/timerTest">타이머 테스트</a></li>
-	      	<li><a href="${ctp}/">로비</a></li> &nbsp;&nbsp;
-	        <li><a href="${ctp}/member/memberLogin">로그인</a></li> &nbsp;&nbsp;
-	        <li><a href="${ctp}/member/memberJoinAgreement">회원가입</a></li> &nbsp;&nbsp;
+	      	<li><a href="${ctp}/" class="btn btn-link"><font color="black">로비</font></a></li> &nbsp;&nbsp;
+	        <li><a href="${ctp}/member/memberLogin" class="btn btn-link"><font color="black">로그인</font></a></li> &nbsp;&nbsp;
+	        <li><a href="${ctp}/member/memberJoinAgreement" class="btn btn-link"><font color="black">회원가입</font></a></li> &nbsp;&nbsp;
       	</c:if>
       	<c:if test="${!empty sMid}">
-	      	<li><a href="${ctp}/">로비</a></li> &nbsp;&nbsp;
-        	<li><a href="${ctp}/member/memberLogout?mid=${sMid}">로그아웃</a></li> &nbsp;&nbsp;
+	      	<li><a href="${ctp}/" class="btn btn-link"><font color="black">로비</font></a></li> &nbsp;&nbsp;
+        	<li><a href="${ctp}/member/memberLogout?mid=${sMid}" class="btn btn-link"><font color="black">로그아웃</font></a></li> &nbsp;&nbsp;
       	</c:if>
       </nav>
     </header>
     <br/>
   </div>
-  
-  
- 

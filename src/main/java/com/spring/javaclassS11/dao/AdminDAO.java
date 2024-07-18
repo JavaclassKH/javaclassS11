@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaclassS11.vo.BlockReasonDataVO;
 import com.spring.javaclassS11.vo.MemberVO;
+import com.spring.javaclassS11.vo.RandomSongRecommandVO;
 
 public interface AdminDAO {
 
@@ -30,6 +32,24 @@ public interface AdminDAO {
 
 	public MemberVO getAdminMemberSearch(@Param("memberSearch") String memberSearch,@Param("flag") String flag);
 
-	public int setAdminMemberBlockManagement(@Param("str") String str, @Param("blockEndDate") String blockEndDate, @Param("blockStartDate") String blockStartDate, @Param("idx") int idx);
+	public int setAdminMemberBlockManagement(@Param("vo") BlockReasonDataVO vo, @Param("str") String str);
+
+	public int setRandomSongRecommandInput(@Param("vo") RandomSongRecommandVO vo);
+
+	public int setBlockReasonData(@Param("vo") BlockReasonDataVO vo);
+
+	public MemberVO getMemberInfoByIdx(@Param("idx") int idx);
+
+	public ArrayList<BlockReasonDataVO> getBlockReasonDataList();
+
+	public MemberVO getAdministerInfo(int idx);
+
+	public MemberVO getAdministerExistCheck(@Param("memLevel") int memLevel,@Param("part") String part);
+
+	public int setAdministerAuthorityChenge(@Param("idx") int idx, @Param("memLevel") int memLevel, @Param("part") String part);
+
+	public int setMemberGiveAdmin(@Param("idx") int idx,@Param("memLevel") int memLevel,@Param("part") String part);
+
+	public int setAuthorityDelete(@Param("idx") int idx);
 
 }

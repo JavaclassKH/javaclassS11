@@ -71,12 +71,9 @@
 		    </div>
 	    <div class="Menu">
 	    	<ui>
-		      <li style="padding-top: 1px">
-		        ☆ 최근 게시글
-		      </li><hr/>
 		      <li class="liTitle">
 		        ★ Notice ★
-		      </li>
+		      </li><br/>
 		      <li>
 		      	<a href="${ctp}/notice/noticeBoard">⊙ 전체공지</a>
 		      </li>
@@ -91,19 +88,19 @@
 		      </li><hr/>
 		      <li class="liTitle">
 		        ★ Board ★
-		      </li>
+		      </li><br/>
 		      <li>
 		        <a href="${ctp}/board/freeBoard">⊙ 자유게시판</a>
 		      </li>
 		      <li>
-		        ⊙ from. IVE
+		        <a href="${ctp}/board/fromIVE">⊙ from. IVE</a>
 		      </li>
 		      <li>
 		        ⊙ to. IVE
 		      </li><hr/>
 		      <li class="liTitle">
 		        ★ Suggestions ★
-		      </li>
+		      </li><br/>
 		      <li>
 		        ⊙ 노래제안
 		      </li>
@@ -115,7 +112,7 @@
 		      </li><hr/>
 		      <li class="liTitle">
 		      	★ Play ★
-		      </li>
+		      </li><br/>
 		      <li>
 		        <a href="${ctp}/play/randomSongRecommand">⊙ 랜덤노래추천</a>
 		      </li>
@@ -124,7 +121,7 @@
 		      </li><hr/>
 		      <li class="liTitle">
 		        ★ etc ★
-		      </li>
+		      </li><br/>
 		      <li>
 		        ⊙ 등업신청
 		      </li>

@@ -48,7 +48,10 @@
 				}
 				else {
 					recAlbumImg = vo.recAlbumImg;
-					recAlbumImg = "<img src='${ctp}/images/"+recAlbumImg+"' width='100%' height='650px' />";
+					
+					if(recAlbumImg.indexOf("<iframe") == -1) {
+						recAlbumImg = "<img src='${ctp}/images/"+recAlbumImg+"' width='100%' height='650px' />";											
+					}
 					
 					$("#resultBox").show();	
 					$("#resultBoxImg").show();	
@@ -73,12 +76,15 @@
 			type : "post",
 			success:function(vo) {
 				recAlbumImg = vo.recAlbumImg;
-				recAlbumImg = "<img src='${ctp}/images/"+recAlbumImg+"' width='100%' height='650px' />";
+				if(recAlbumImg.indexOf("<iframe") == -1) {
+					recAlbumImg = "<img src='${ctp}/images/"+recAlbumImg+"' width='100%' height='650px' />";											
+				}
 				$("#resultBox").show();	
 				$("#resultBoxImg").show();	
 				$("#songName").text(vo.songName);
 				$("#singer").text(vo.singer);
 				$("#genre").text(vo.genre);
+				$("#recVibe").text(vo.recVibe);
 				$("#resultBoxImg").html(recAlbumImg);
 				reSw = 1;			
 			},
@@ -111,18 +117,21 @@
 	<div id="resultBox">
 		<p><b>이 노래는 어떠세요??</b></p>
 		<table class="table text-center">
-			<tr>
+			<tr class="text-center">
 				<th scope="col">제목</th>
 				<th scope="col">가수</th>
 				<th scope="col">장르</th>
 			</tr>
-			<tr>
+			<tr class="text-center">
 				<td scope='row'><span id="songName"></span></td>
 				<td scope='row'><span id="singer"></span></td>
 				<td scope='row'><span id="genre"></span></td>
 			</tr>
+			<tr class="table-borderless"><td></td></tr>
+			<tr class="text-center"><th colspan="3">분위기</th></tr>
+			<tr class="text-center"><td colspan="3"><span id="recVibe"></span></td></tr>
 		</table>
-	</div>
+	</div><br/>
 	<div id="resultBoxImg"></div>
   
   

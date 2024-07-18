@@ -22,6 +22,8 @@
 <script>
 	'use strict';
 	
+	history.scrollRestoration = "auto";
+	
 	$(document).ready(function(){
 		$("#memberSearch").attr('readonly', true);
 	})
@@ -177,9 +179,57 @@
 	
 	// 게제재기간 부여,조정 제거 실행하기
 	function adminMemberBlockManagement(str) {
-		let blockEndDate = $("#blockEndDate").val();
+		let blockDatestr = $("#blockEndDate").val();
 		let idx = $("#idx").val();
-		location.href="${ctp}/admin/adminMemberBlockManagement?str="+str+"&blockEndDate="+blockEndDate+"&idx="+idx;	
+		let blockReason = $("#blockReason").val();
+		
+		const blockEndDate = new Date(blockDatestr + 'T00:00:00');	
+		const now = new Date();
+		
+		if(blockEndDate <= now) {
+			alert("제재종료일은 현재 날짜 이후로 선택해주세요");
+			return false;
+		} 
+		
+		location.href="${ctp}/admin/adminMemberBlockManagement?str="+str+"&blockEndDate="+blockDatestr+"&idx="+idx+"&blockReason="+blockReason;	
+	}
+	
+	// 회원에게 권한 부여하는 창 보이기
+	function giveMemberAdmin() {
+		$("#giveMemberAdmin").show();
+		let idx = $("#idx").val();		
+		let mid = $("#mid").val();		
+		$("#id").val(mid);
+	}
+	
+	// 회원에게 권한 부여하기 실행
+	function authorityGive() {
+		let idx = $("#idx").val();
+		let memLevel = $("#authorityControlLevel").val();
+		let part = $("#authorityControlPart").val();
+		let check = 111;
+		
+		$.ajax({
+			url : "${ctp}/admin/adminAuthorityManage",
+			type : "post", 
+			data : {
+				idx : idx,
+				memLevel : memLevel,
+				part : part,
+				check : check
+			},
+			success:function(res){
+				let checkIdx = res.substring(1,res.length);
+				if(res != "0") {
+					alert("권한 부여가 완료되었습니다");
+					location.href="${ctp}/admin/adminAuthorityManage?idx="+checkIdx;
+				}
+			},
+			error:function(){
+				alert("전송오류");
+			}
+		});
+		
 	}
 	
 </script>
@@ -297,33 +347,35 @@
 	  	<c:if test="${empty flag}">
 		  	<c:forEach var="vo" items="${vos}" varStatus="st">
 		  		<c:set var="i" value="${st.index}" />
-		  		<tr class="text-center">
-		  			<td style="width: 3%">
-		  				<c:if test="${vo.memLevel == 5}">
-			  				<input type="hidden" name="members" id="members${i}" value="${vo.idx}" disabled />
-		  				</c:if>
-		  				<c:if test="${vo.memLevel != 5}">
-			  				<input type="checkbox" name="members" id="members${i}" value="${vo.idx}" />
-		  				</c:if>
-		  			</td>
-		  			<td style="width: 16%">${vo.mid}</td>
-		  			<td style="width: 17%">${vo.nickName}</td>
-		  			<td style="width: 18%">${fn:substring(vo.joinDate,0,16)}</td>
-		  			<td style="width: 20%">
-		  				${vo.tel}
-		  			</td>
-		  			<td style="width: 13%" class="text-center">
-			  			<c:if test="${vo.memLevel == 1}">휴면회원</c:if> 
-		  				<c:if test="${vo.memLevel == 2}">준회원</c:if> 
-		  				<c:if test="${vo.memLevel == 3}">정회원</c:if> 
-		  				<c:if test="${vo.memLevel == 4}">우수회원</c:if> 
-		  				<c:if test="${vo.memLevel == 5}">아이브</c:if> 
-		  				<c:if test="${vo.memLevel == 99}">제재회원<br/>(${vo.blockDate_diff}일)</c:if>
-		  			</td>
-		  			<td style="width: 13%">
-		  				<button onclick="managementModal(${vo.idx},'${vo.mid}','${vo.nickName}')" data-toggle="modal" data-target="#managementModal" class="btn btn-info">관리</button>
-		  			</td>
-		  		</tr>
+	  			<c:if test="${vo.part == 'emp'}">
+			  		<tr class="text-center">
+			  			<td style="width: 3%">
+			  				<c:if test="${vo.memLevel == 5}">
+				  				<input type="hidden" name="members" id="members${i}" value="${vo.idx}" disabled />
+			  				</c:if>
+			  				<c:if test="${vo.memLevel != 5}">
+				  				<input type="checkbox" name="members" id="members${i}" value="${vo.idx}" />
+			  				</c:if>
+			  			</td>
+			  			<td style="width: 16%">${vo.mid}</td>
+			  			<td style="width: 17%">${vo.nickName}</td>
+			  			<td style="width: 18%">${fn:substring(vo.joinDate,0,16)}</td>
+			  			<td style="width: 20%">
+			  				${vo.tel}
+			  			</td>
+			  			<td style="width: 13%" class="text-center">
+				  			<c:if test="${vo.memLevel == 1}">휴면회원</c:if> 
+			  				<c:if test="${vo.memLevel == 2}">준회원</c:if> 
+			  				<c:if test="${vo.memLevel == 3}">정회원</c:if> 
+			  				<c:if test="${vo.memLevel == 4}">우수회원</c:if> 
+			  				<c:if test="${vo.memLevel == 5}">아이브</c:if> 
+			  				<c:if test="${vo.memLevel == 99}">제재회원<br/>(${vo.blockDate_diff}일)</c:if>
+			  			</td>
+			  			<td style="width: 13%">
+			  				<button onclick="managementModal(${vo.idx},'${vo.mid}','${vo.nickName}')" data-toggle="modal" data-target="#managementModal" class="btn btn-info">관리</button>
+			  			</td>
+			  		</tr>
+	  			</c:if>
 		  	</c:forEach>	  	
 	  	</c:if>
 	  	<tr><td colspan="5" class="p-0 m-0"></td></tr>
@@ -351,21 +403,51 @@
         		<input type="text" id="mid" style="display: none;" />
 	        	<button onclick="adminMemberInfoWatch()" class="btn btn-link mr-4"><font color="black"><b>회원 상세정보 조회</b></font></button>
 	        	<button onclick="adminMemberMidNickNameChange()" class="btn btn-link mr-4"><font color="navy"><b>회원아이디/닉네임 변경</b></font></button>
-	        	<button onclick="adminMemberBlockManagementShowHide(1)" class="btn btn-link"><font color="red"><b>제재기간 부여,조정,제거</b></font></button>
+	        	<button onclick="adminMemberBlockManagementShowHide(1)" class="btn btn-link mr-4"><font color="red"><b>제재기간 부여,조정,제거</b></font></button>
+	        	<button onclick="giveMemberAdmin()" class="btn btn-link"><font color="gold"><b>권한부여</b></font></button>        		
         	</div>
         </div><br/><br/>
         <div id="adminMemberBlockManagement" style="display: none;">
         	<h4 class="text-danger text-center"><b>회원 제재 관리</b></h4><br/>
         	<p>
         		<input type="date" name="blockEndDate" id="blockEndDate" class="form-control mb-3" autofocus />
-        	</p>
+        	</p><br/>
+        	<p>
+        		<textarea rows="3" name="blockReason" id="blockReason" style="resize: none;" class="form-control" placeholder="제재사유를 작성해주세요"></textarea>
+        	</p><br/>
         	<div class="text-center">
         		<input type="text" id="idx" style="display: none;" />
         		<input type="text" id="mid" style="display: none;" />
         		<button onclick="adminMemberBlockManagement('cru')" class="btn btn-warning btn-sm mr-5">부여/수정</button>
         		<button onclick="adminMemberBlockManagement('d')" class="btn btn-danger btn-sm mr-5">제거</button>
         		<button onclick="adminMemberBlockManagementShowHide(0)" class="btn btn-secondary btn-sm mr-3">재제창닫기</button>
-        	</div>
+        	</div><br/>
+        </div>
+        <div id="giveMemberAdmin" style="display: none;">
+        	<p><input type="text" name="id" id="id" class="form-control mb-4" style="text-align: center;" readonly /></p>
+        	<input type="text" id="idx" style="display: none;" />
+	        <select name="authorityControlLevel" id="authorityControlLevel" class="form-control mb-2">
+						<option value="">부여할 권한을 선택하세요</option>
+						<option value="111">운영자</option>
+						<option value="112">관리자</option>
+					</select>
+					<select name="authorityControlPart" id="authorityControlPart" class="form-control mb-2">
+						<option value="">담당파트를 선택하세요</option>
+						<option value="notice">전체공지</option>
+						<option value="freeBoard">자유게시판</option>
+						<option value="fromIVE">fromIVE</option>
+						<option value="toIVE">toIVE</option>
+						<option value="suggestSong">노래제안</option>
+						<option value="suggestChoreography">안무제안</option>
+						<option value="suggestSelfContent">자체컨텐츠제안</option>
+						<option value="randomsongRecommand">랜덤노래추천</option>
+						<option value="IVEQuiz">퀴즈파크</option>
+						<option value="gradrManage">등업관리</option>
+					</select>
+					<div class="text-right">
+						<button onclick="authorityGive()" class="btn btn-success mt-4 mr-3">부여</button>
+						<button onclick="javascript:$('#giveMemberAdmin').hide();" class="btn btn-warning mt-4">닫기</button>
+					</div>
         </div>
       </div>
       
@@ -378,6 +460,7 @@
   </div>
 </div>
 <!-- 회원관리 Modal End -->
+
   
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />  
 </body>

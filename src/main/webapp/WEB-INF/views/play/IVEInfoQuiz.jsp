@@ -21,13 +21,14 @@
 		else { // 오답이면 화면에 오답여부만 띄워주기! 
 			alert("오답여부 체크 테스트!");
 			setTimeout(function(){
-				$("#worng").show();
-			}, 1700);		
+				$("#wrong").show();
+			}, 200);		
 		
 		}
 	}
 	
 	let count = 0;
+	let stopper = 0;
 	
 	
 	$(document).ready(function() {
@@ -78,6 +79,11 @@
 	    // 페이지 로드 시 타이머 시작
 	    startTimer();
 		}
+		// 10문제 출제 완료(퀴즈 종료)
+		else if('${check}' == 'finish') {
+			clearInterval(timerId); // 기존 타이머 멈추기
+		  clearTimeout(autoResetId); // 기존 자동 리셋 타이머 멈추기
+		}
 	});
 
 		
@@ -89,28 +95,29 @@
 	<div id="before">
 		<div>
 			<img src="${ctp}/images/IVEInfoQuizMain.png" width="100%" height="65%" style="margin-left: 20px;" />
-			<p style="margin-top: 20px; margin-bottom: 200px; text-align: center;">아이브 상식 퀴즈</p>
+			<p style="margin-top: 20px; margin-bottom: 50px; text-align: center;">아이브 상식 퀴즈</p>
 			<div style="text-align: center;">
 			<button onclick="start()" class="btn btn-light mr-5">퀴즈시작</button>
-			<a href="location.href='${ctp}/play/quizMain/main';" class="btn btn-dark ml-4">퀴즈파크</a>
+			<a href="window.parent.location.href='${ctp}/play/IVEQuiz';" class="btn btn-dark ml-4">퀴즈파크</a>
 			</div>
 		</div>
 	</div>
 	<div id="start" style="display: none;">
-		<p style="margin-top: 20px; margin-bottom: 150px;">
+		<p style="margin-top: 20px; margin-bottom: 150px; text-align: center;">
 			아이브 상식 퀴즈 도전중~ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="timer"></span><br/>
-			<button id="resetButton">퀴즈종료</button>
 		</p>
 		<p class="text-center" style="margin-bottom: 40px;">문제 : ${vo.quizQuestion}</p><br/>
-		<div>
+		<div class="text-center">
 			<c:if test="${!empty vo}"><c:set var="quizbogi" value="${fn:split(vo.quizbogi,'/')}" /></c:if>
-			<button onclick="answerCheck('${quizbogi[0]}')" id="b1" class="btn btn-link">${quizbogi[0]}</button>
-			<button onclick="answerCheck('${quizbogi[1]}')" id="b2" class="btn btn-link">${quizbogi[1]}</button>
-			<button onclick="answerCheck('${quizbogi[2]}')" id="b3" class="btn btn-link">${quizbogi[2]}</button>
-			<button onclick="answerCheck('${quizbogi[3]}')" id="b4" class="btn btn-link">${quizbogi[3]}</button>
+			<button onclick="answerCheck('${quizbogi[0]}')" id="b1" class="btn btn-light mb-3">${quizbogi[0]}</button><br/>
+			<button onclick="answerCheck('${quizbogi[1]}')" id="b2" class="btn btn-light mb-3">${quizbogi[1]}</button><br/>
+			<button onclick="answerCheck('${quizbogi[2]}')" id="b3" class="btn btn-light mb-3">${quizbogi[2]}</button><br/>
+			<button onclick="answerCheck('${quizbogi[3]}')" id="b4" class="btn btn-light">${quizbogi[3]}</button><br/>
 		</div><br/><br/>
-		
-		<div id="worng" style="display: none;" class="text-center">오답~</div>
+		<div class="text-right mr-5">
+			<button id="resetButton" class="btn btn-danger">퀴즈종료</button>
+		</div>
+		<div id="wrong" style="display: none;" class="text-center">오답~</div>
 		
 	</div>
 </body>

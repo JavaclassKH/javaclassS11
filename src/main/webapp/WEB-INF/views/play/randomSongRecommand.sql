@@ -7,7 +7,7 @@ idx int not null auto_increment primary key,
 songName varchar(40) not null,                                 /* 노래제목 */
 singer varchar(20) not null default '아이브(IVE)',               /* 가수 */ 
 genre varchar(40) not null,                                    /* 노래 장르 */
-recAlbumImg varchar(200) default 'noAlbumImg.jpg',             /* 추천곡 앨범 표지(없을땐 default) */
+recAlbumImg text not null,                                     /* 추천곡 앨범 표지(없을땐 default) */
 recVibe text not null                                          /* 추천 분위기 (새벽, 신날때, 즐거울 때, 슬플 때 등) */	
 );
 

@@ -11,7 +11,9 @@
 	</select>
 	
 	<select id="totRecCnt" resultType="int">
-		select count(*) from noticeBoard;
+		<if test="part = 'noticeBoard'">
+			select count(*) from noticeBoard;
+		</if>
 	</select>
 	
 	

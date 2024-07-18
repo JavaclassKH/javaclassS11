@@ -12,8 +12,8 @@ public class FreeBoardVO {
 	private String mid;
 	private String nickName;
 	private String writerIp;
-	private String title;
-	private String content;
+	private String freeBoardTitle;
+	private String freeBoardContent;
 	private String writeDate;
 	private int readNum;
 	private int complainCnt;

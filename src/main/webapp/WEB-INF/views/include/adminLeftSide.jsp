@@ -69,6 +69,9 @@
 		      </li><br/>
 		      <li>
 		      	<a href="${ctp}/admin/adminMemberList">⊙ 전체회원조회 </a>
+		      </li><br/>
+		      <li>
+		      	<a href="${ctp}/admin/blockManagement">⊙ 제재내역 조회</a>
 		      </li><br/><hr/>
 		      <li class="liTitle">
 		        ★ 문의사항관리 ★
@@ -83,7 +86,7 @@
 		      	★ 엔터테인먼트 관리 ★
 		      </li><br/>
 		      <li>
-		        <a href="${ctp}/play/randomSongRecommand">⊙ 랜덤노래추천 관리</a>
+		        <a href="${ctp}/admin/adminRandomSongRecommand">⊙ 랜덤노래추천 관리</a>
 		      </li><br/>
 		      <li>
 		        <a href="${ctp}/play/randomSongRecommand">⊙ 아이브 퀴즈 관리</a>

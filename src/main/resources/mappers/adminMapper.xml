@@ -14,6 +14,10 @@
 	<select id="getCafeVisitCount"  resultType="int">
 		select sum(visitCnt) from memberSS;
 	</select>
+	
+	<select id="getMemberInfoByIdx" resultType="com.spring.javaclassS11.vo.MemberVO">
+		select * from memberSS where idx = #{idx};
+	</select>
 
 	<select id="getAdminList" resultType="com.spring.javaclassS11.vo.MemberVO">
 		select * from memberSS where part != 'emp' order by memLevel, part;
@@ -49,12 +53,27 @@
 			select *, timestampdiff(day, blockStartDate, blockEndDate) as blockDate_diff from memberSS where nickName = #{memberSearch}; 
 		</if>
 	</select>
+	
+	<select id="getBlockReasonDataList" resultType="com.spring.javaclassS11.vo.BlockReasonDataVO">
+		select * from blockReasonData order by idx desc;
+	</select>
+	
+	<select id="getAdministerInfo" resultType="com.spring.javaclassS11.vo.MemberVO">
+		select * from memberSS where idx = #{idx} and part != 'emp';
+	</select>
+	
+	<select id="getAdministerExistCheck" resultType="com.spring.javaclassS11.vo.MemberVO">
+		select * from memberSS where memLevel = #{memLevel} and part = #{part};
+	</select>
 
 <!-- insert -->	
-
-
-
-
+	<insert id="setRandomSongRecommandInput">
+		insert into randomSongRecommand values (default,#{vo.songName},#{vo.singer},#{vo.genre},#{vo.recAlbumImg},#{vo.recVibe});
+	</insert>
+	
+	<insert id="setBlockReasonData">
+		insert into blockReasonData values (default,#{vo.mid},#{vo.nickName},#{vo.blockReason},#{vo.blockStartDate},#{vo.blockEndDate},#{vo.blockGiver});
+	</insert>
 
 <!-- update -->	
 	<update id="setAdminMemberLevelChange">
@@ -67,11 +86,23 @@
 	
 	<update id="setAdminMemberBlockManagement">
 		<if test="str == 'cru'"> <!-- 제재기간 부여,수정 -->
-			update memberSS set blockStartDate = #{blockStartDate}, blockEndDate = #{blockEndDate}, memLevel = 99 , blockCnt = blockCnt + 1 where idx = #{idx};	
+			update memberSS set blockStartDate = #{vo.blockStartDate}, blockEndDate = #{vo.blockEndDate}, memLevel = 99 , blockCnt = blockCnt + 1 where idx = #{vo.idx};	
 		</if>
 		<if test="str != 'cru'"> <!-- 제재기간 삭제 -->
-			update memberSS set blockStartDate = default, blockEndDate = default, memLevel = 3 where idx = #{idx};
+			update memberSS set blockStartDate = default, blockEndDate = default, memLevel = 3 where idx = #{vo.idx};
 		</if>
+	</update>
+	
+	<update id="setAdministerAuthorityChenge">
+		update memberSS set memLevel = #{memLevel}, part = #{part} where idx = #{idx};
+	</update>
+	
+	<update id="setMemberGiveAdmin">
+		update memberSS set memLevel = #{memLevel}, part = #{part} where idx = #{idx};
+	</update>
+	
+	<update id="setAuthorityDelete">
+		update memberSS set mid = 'imsiMid#{idx}', nickName = 'imsiNick#{idx}' memLevel = 3, part = 'emp' where idx = #{idx};		
 	</update>
 
 

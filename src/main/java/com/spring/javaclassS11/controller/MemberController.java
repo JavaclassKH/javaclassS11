@@ -27,8 +27,23 @@ public class MemberController {
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
 
+	// 로그인 화면으로 이동 
+	/*
+		check값이 true일 시에는 아이디찾기를 진행한 뒤 로그인 창으로 온 것이므로
+		찾은 mid값을 아이디 입력창에 넣어준다
+	*/
 	@RequestMapping(value = "/member/memberLogin" , method = RequestMethod.GET)
-	public String memberLoginGet() { return "member/memberLogin"; }
+	public String memberLoginGet(@RequestParam(name="mid", defaultValue = "", required = false) String mid, 
+		@RequestParam(name="check", defaultValue = "false", required = false) String check, Model model) { 
+		
+		if(!check.equals("true")) return "member/memberLogin"; 
+		
+		else {
+			model.addAttribute("mid", mid);
+			model.addAttribute("check", check);
+			return "member/memberLogin";
+		}
+	}
 	
 	@RequestMapping(value = "/member/myPage" , method = RequestMethod.GET)
 	public String myPageGet(Model model, HttpServletRequest request) { 
@@ -54,18 +69,15 @@ public class MemberController {
 			
 			// 제재진행회원(남은 제재기간 안내)
 			if(vo.getMemLevel() == 99 && blockDate_diff > 0) {
-				System.out.println("제재진행회원(남은 제재기간 안내)");
 				return "redirect:/message/memberLoginBlockMember?blockDate="+blockDate_diff;
 			}
 			
 			// 제재기간 종료회원
 			if(blockDate_diff <= 0) {
 				if(vo.getMemLevel() == 99 && vo.getBlockCnt() >= 3) {
-					System.out.println("제재종료회원(제재기간 종료&제제횟수 3회 이상)");
 					return "redirect:/message/memberBlockCntOverThree?mid="+mid;
 				}
 				else if(vo.getMemLevel() == 99 && vo.getBlockCnt() <= 2) {
-					System.out.println("제재종료회원(제재 종료, 로그인 허용)");
 					memberService.setBlockDateOver(mid);
 				}
 			}
@@ -192,6 +204,7 @@ public class MemberController {
 		return res+"";	
 	}	
 	
+	// 회원정보 업데이트
 	@RequestMapping(value = "/member/memberInfoUpdate" , method = RequestMethod.GET)
 	public String memberInfoUpdateGet(Model model, HttpSession session) { 
 		String mid = (String)session.getAttribute("sMid");
@@ -200,6 +213,18 @@ public class MemberController {
 		
 		model.addAttribute("vo", vo);
 		return "member/memberInfoUpdate"; 
+	}
+	
+	// 아이디 찾기
+	@RequestMapping(value = "/member/midFind" , method = RequestMethod.GET)
+	public String midFindGet() { return "member/midFind"; }
+	
+	// 아이디 찾기
+	@ResponseBody
+	@RequestMapping(value = "/member/midFindCheck" , method = RequestMethod.POST)
+	public String midFindCheckPost(String nickName, String email) { 
+		String mid = memberService.memberMidFind(nickName, email);
+		return mid; 
 	}
 	
 	

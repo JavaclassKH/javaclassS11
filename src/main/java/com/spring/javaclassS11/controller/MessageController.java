@@ -42,6 +42,18 @@ public class MessageController {
 			model.addAttribute("msg", mid + "님 로그인되었습니다");
 			model.addAttribute("url", "");
 		}
+		else if(msgFlag.equals("memberLoginOk") && mid.equals("admin")) {
+			model.addAttribute("msg", "대표운영자님 로그인되었습니다");
+			model.addAttribute("url", "");
+		}
+		else if(msgFlag.equals("memberLoginOk") && mid.equals("subadmin")) {
+			model.addAttribute("msg", "전체관리자님 로그인되었습니다");
+			model.addAttribute("url", "");
+		}
+		else if(msgFlag.equals("memberLoginOk")) {
+			model.addAttribute("msg", mid + "님 로그인되었습니다");
+			model.addAttribute("url", "");
+		}
 		else if(msgFlag.equals("memberLoginNo")) {
 			model.addAttribute("msg", "로그인에 실패하였습니다");
 			model.addAttribute("url", "member/memberLogin");
@@ -95,9 +107,24 @@ public class MessageController {
 			model.addAttribute("url", "admin/adminMemberList");
 		}
 		else if(msgFlag.equals("memberBlockCntOverThree")) {
-			System.out.println("여기서 왜 더 안가 진짜 왜");
 			model.addAttribute("msg", mid + "님은 현재 제재횟수 3회 초과로 회원자격 심사가 진행중입니다\\n심사기간중에는 로그인이 불가능합니다");
 			model.addAttribute("url", "");
+		}
+		else if(msgFlag.equals("freeBoardInputOk")) {
+			model.addAttribute("msg", "자유게시판에 글이 정상적으로 등록되었습니다");
+			model.addAttribute("url", "board/freeBoard");
+		}
+		else if(msgFlag.equals("freeBoardInputNo")) {
+			model.addAttribute("msg", "자유게시판에 글이 정상적으로 등록되지 않았습니다");
+			model.addAttribute("url", "board/freeBoard");
+		}
+		else if(msgFlag.equals("fromIVEInputOk")) {
+			model.addAttribute("msg", "다이브들을 위한 글이 작성되었어요~!!");
+			model.addAttribute("url", "board/fromIVE");
+		}
+		else if(msgFlag.equals("fromIVEInputNo")) {
+			model.addAttribute("msg", "다이브들을 위한 글이 작성되지 못했어요~ㅠㅠ");
+			model.addAttribute("url", "board/fromIVE");
 		}
 		
 		

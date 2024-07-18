@@ -9,7 +9,9 @@
 <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 <link rel="stylesheet" href="${ctp}/resources/css/bodyLeftRight.css">
 <title>Second DIVE - lobby</title>
-
+<link rel="icon" type="image/png" sizes="16x16" href="${ctp}/images/favicons/favicon-16x16.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
 <style>
 	body {
 	  margin: 0;
@@ -45,6 +47,16 @@
 	
 
 </style>
+<script>
+	'use strict';
+	
+	$(document).ready(function(){
+		$("#songName").text('${vo.songName}');
+		$("#singer").text('${vo.singer}');
+		$("#resultBoxImg").html('${vo.recAlbumImg}');
+	});
+
+</script>
 </head>
 <body>
   <jsp:include page="/WEB-INF/views/include/header.jsp" /> 
@@ -56,31 +68,15 @@
       </div>
 	   	<div class="todaySong">
 	   		<h3 class="text-center" style="font-size: 4em;"><b>- 오늘의 추천곡 -</b></h3>
-	   		<p style="font-size: 3em;">Today : yyyy년 MM월 dd일의 추천곡입니다</p><br/>
-	   		<div>
-		   		임시이미지<img src="${ctp}/images/HeaderImg.jpg" width="720px" />
-	   		</div><br/>
-	   		<p style="font-size: 20px;">
-	   			제목 : imsiSongTitle <br/>
-	   			가수 : imsiSinger 
-	   		</p>
-	   	</div><br/><br/> 
-	   	<div>
-	   		<table class="table table-borderless table-hover">
-	   			<tr>
-	   				<th>멤버</th>
-	   				<th>제목</th>
-	   				<th>작성일</th>
-	   			</tr>
-		   		<tr>
-		   			<td>IVE.유진</td>
-		   			<td>다이브들 안녕~</td>
-		   			<td>2024.06.28</td>
-		   		</tr>
-	   		</table>
+	   		<p style="font-size: 3em;">오늘은 ${todayStr} 입니다</p><br/>
+	   		<div id="resultBox" style="font-size: 25px; font-weight: bold;">
+					<p> 오늘의 추천곡 : <span id="songName"></span></p>
+					<p> 가수 : <span id="singer"></span></p>
+				</div><br/>
+				<div id="resultBoxImg" class="mt-2"></div>
 	   	</div>
     </div>  	
-  </div><br/>
+  </div><br/><br/><br/><br/><br/><br/>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />  
 </body>
 </html>

@@ -139,6 +139,26 @@
 		address = postcode + "/ " + roadAddress + "/ " + detailAddress + "/" + extraAddress;
 		let fangirlReason = memberJoinForm.fangirlReason.value;		
 		
+		  
+	  // 전송전에 파일에 관련된 사항들을 체크해준다.
+		let fName = document.getElementById("memberImage").value;
+		if(fName.trim() != "") {
+			let ext = fName.substring(fName.lastIndexOf(".") + 1).toLowerCase();
+			let maxSize = 1024 * 1024 * 5;
+			let fileSize = document.getElementById("memberImage").files[0].size;
+			
+			if(ext != 'jpg' && ext != 'gif' && ext != 'png') {
+				alert("그림파일만 업로드 가능합니다.");
+				return false;
+			}
+			else if(fileSize > maxSize) {
+				alert("업로드할 파일의 최대용량은 5MByte입니다.");
+				return false;
+			}
+		}
+		else return false;		
+		
+		
 		if(!mid.match(regMid)) {
 			alert("아이디 형식에 맞게 작성해주세요!");
 			alert("영문 대/소문자와 숫자만을 사용한 3~12자");

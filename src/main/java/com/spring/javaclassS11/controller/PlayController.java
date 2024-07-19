@@ -121,7 +121,7 @@ public class PlayController {
       if(quizAnswers.size() != 10) model.addAttribute("check", "start");
       else if(quizAnswers.size() == 10) {
       	model.addAttribute("check", "finish");
-      	model.addAttribute("nowScore", (int)session.getAttribute("score"));
+      	if(quizAnswers.size() < 10) model.addAttribute("nowScore", (int)session.getAttribute("score"));
       }
 			model.addAttribute("vo", vo);
 			return "play/IVEInfoQuiz";

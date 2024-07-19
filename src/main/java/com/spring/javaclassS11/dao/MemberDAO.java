@@ -22,4 +22,8 @@ public interface MemberDAO {
 
 	public String memberMidFind(@Param("nickName") String nickName,@Param("email") String email);
 
+	public MemberVO getMemberExitsCheckForPwdReset(@Param("vo") MemberVO vo);
+
+	public int setPwdReset(@Param("mid") String mid,@Param("encPwd") String encPwd);
+
 }

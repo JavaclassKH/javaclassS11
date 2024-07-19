@@ -1,5 +1,7 @@
 package com.spring.javaclassS11.service;
 
+import javax.servlet.http.HttpSession;
+
 import com.spring.javaclassS11.vo.MemberVO;
 
 public interface MemberService {
@@ -17,6 +19,10 @@ public interface MemberService {
 	public void setBlockDateOver(String mid);
 
 	public String memberMidFind(String nickName, String email);
+
+	public String getMemberExitsCheckForPwdReset(MemberVO vo, HttpSession session);
+
+	public int setPwdReset(String mid, String encPwd);
 
 
 }

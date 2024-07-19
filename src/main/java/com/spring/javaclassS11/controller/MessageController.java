@@ -126,6 +126,14 @@ public class MessageController {
 			model.addAttribute("msg", "다이브들을 위한 글이 작성되지 못했어요~ㅠㅠ");
 			model.addAttribute("url", "board/fromIVE");
 		}
+		else if(msgFlag.equals("pwdResetExecuteOk")) {
+			model.addAttribute("msg", "비밀번호 재설정이 완료되었습니다\n변경된 아이디로 로그인해주세요");
+			model.addAttribute("url", "member/memberLogin");
+		}
+		else if(msgFlag.equals("pwdResetExecuteNo")) {
+			model.addAttribute("msg", "비밀번호 재설정에 실패하였습니다\n비밀번호 변경을 재시도해주세요");
+			model.addAttribute("url", "member/memberLogin");
+		}
 		
 		
 		

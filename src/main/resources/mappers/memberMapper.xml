@@ -17,6 +17,10 @@
 	<select id="memberMidFind" resultType="String">
 		select mid from memberSS where nickName = #{nickName} and email = #{email};
 	</select>
+	
+	<select id="getMemberExitsCheckForPwdReset" resultType="com.spring.javaclassS11.vo.MemberVO">
+		select * from memberSS where mid = #{vo.mid}, nickName = #{vo.nickName}, email = #{vo.email};		
+	</select>
 
 <!-- insert -->	
 	<insert id="setMemberJoin">
@@ -38,6 +42,10 @@
 
 	<update id="setBlockDateOver">
 		update memberSS set blockStartDate = default, blockEndDate = default, memLevel = 3 where mid = #{mid};
+	</update>
+	
+	<update id="setPwdReset">
+		update memberSS set pwd = #{encPwd} where mid = #{mid};		
 	</update>
 
 <!-- delete -->	

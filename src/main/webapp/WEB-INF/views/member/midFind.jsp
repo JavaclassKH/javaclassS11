@@ -102,7 +102,7 @@
  			<div class="input-group-prepend">
  				<input type="button" value="이메일" title="이메일" class="btn btn-light" disabled />
  			</div>
-  		<input type="email" name="email" id="email" placeholder="이메일을 입력하세요" style="opacity: 0.5;" class="form-control" autofocus required />
+  		<input type="email" name="email" id="email" placeholder="이메일을 입력하세요" style="opacity: 0.5;" class="form-control" required />
  		</div>
  		<div class="mt-2 text-center">
  			<button onclick="midFindCheck()" class="btn btn-info">찾기</button>

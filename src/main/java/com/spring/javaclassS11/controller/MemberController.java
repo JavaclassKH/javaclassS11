@@ -1,7 +1,9 @@
 package com.spring.javaclassS11.controller;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javaclassS11.common.JavaclassProvide;
 import com.spring.javaclassS11.service.MemberService;
 import com.spring.javaclassS11.vo.MemberVO;
 
@@ -26,6 +30,9 @@ public class MemberController {
 	
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	JavaclassProvide javaclassProvide;
 
 	// 로그인 화면으로 이동 
 	/*
@@ -152,6 +159,7 @@ public class MemberController {
 	@RequestMapping(value = "/member/memberJoin" , method = RequestMethod.GET)
 	public String memberJoinGet() { return "member/memberJoin"; }
 	
+	// 회원가입 처리
 	@RequestMapping(value = "/member/memberJoin" , method = RequestMethod.POST)
 	public String memberJoinPost(MemberVO vo) { 
 		int res = 0;
@@ -166,6 +174,11 @@ public class MemberController {
 		
 		String tel = tel1 + "-" + tel2 + "-" + tel3;
 		vo.setTel(tel);
+		
+		String uid = UUID.randomUUID().toString().substring(0,8);
+		String oFileName = vo.getMemberImage();
+		String sFileName = vo.getMid() + "_" + uid + "_" + oFileName;
+		//javaclassProvide.writeFile(fName, sFileName, "member");
 		
 		// 회원사진저장(서비스 객체에서 처리후 저장)		
 		res = memberService.setMemberJoin(vo);
@@ -215,11 +228,11 @@ public class MemberController {
 		return "member/memberInfoUpdate"; 
 	}
 	
-	// 아이디 찾기
+	// 아이디 찾기 화면
 	@RequestMapping(value = "/member/midFind" , method = RequestMethod.GET)
 	public String midFindGet() { return "member/midFind"; }
 	
-	// 아이디 찾기
+	// 아이디 찾기 실행
 	@ResponseBody
 	@RequestMapping(value = "/member/midFindCheck" , method = RequestMethod.POST)
 	public String midFindCheckPost(String nickName, String email) { 
@@ -227,6 +240,43 @@ public class MemberController {
 		return mid; 
 	}
 	
+	// 비밀번호 재설정 화면
+	@RequestMapping(value = "/member/pwdReset" , method = RequestMethod.GET)
+	public String pwdResetGet() { return "member/pwdReset"; }
+
+	
+	// 비밀번호 재설정 이전 회원정보 확인
+	@ResponseBody
+	@RequestMapping(value = "/member/pwdReset" , method = RequestMethod.POST)
+	public String pwdResetPost(MemberVO vo, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		
+		String result = memberService.getMemberExitsCheckForPwdReset(vo, session);		
+		if(result == "notFound") return result;
+		
+		session.setAttribute("midBackUp", vo.getMid());
+		
+		return result;
+	}
+	
+	// 비밀번호 재설정 인증문자 틀릴 시 세션에 저장했던 인증문자 삭제처리
+	@RequestMapping(value = "/member/authNoDelete" , method = RequestMethod.GET)
+	public String authNoDeleteGet(HttpSession session) { 
+		session.removeAttribute("authNo");
+		return "member/pwdReset"; 
+	}
+	
+	// 비밀번호 재설정 실행하고 로그인 창으로 보내기
+	@RequestMapping(value = "/member/pwdResetExecute" , method = RequestMethod.GET)
+	public String pwdResetExecutePost(String resetPwd, HttpSession session) { 
+		
+		String encPwd = passwordEncoder.encode(resetPwd);
+		String mid = (String) session.getAttribute("midBackUp");
+		int res = memberService.setPwdReset(mid, encPwd);
+		
+		if(res != 0) return "redirect:/message/pwdResetExecuteOk";
+		else return "redirect:/message/pwdResetExecuteNo"; 
+	}
 	
 	
 	

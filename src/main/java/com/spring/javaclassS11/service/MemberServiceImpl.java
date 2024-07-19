@@ -1,11 +1,13 @@
 package com.spring.javaclassS11.service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.javaclassS11.common.JavaclassProvide;
 import com.spring.javaclassS11.dao.MemberDAO;
 import com.spring.javaclassS11.vo.MemberVO;
 
@@ -14,7 +16,10 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	MemberDAO memberDAO;
-
+	
+	@Autowired
+	JavaclassProvide javaclassProvide;
+	
 	// 회원가입시 아이디 중복체크
 	@Override public MemberVO getMemberIdCheck(String mid) { return memberDAO.getMemberIdCheck(mid); }
 	
@@ -33,11 +38,7 @@ public class MemberServiceImpl implements MemberService {
 		String date = memberDAO.getDateBigyo(mid);
 		date = date.substring(0,10);
 		formatedNow = formatedNow.substring(0,10);
-		
-		if(!formatedNow.equals(date)) {
-			memberDAO.setVisitCntPlus(mid);
-		}
-		
+		if(!formatedNow.equals(date)) memberDAO.setVisitCntPlus(mid);
 		else return;
 	}
 
@@ -59,6 +60,26 @@ public class MemberServiceImpl implements MemberService {
 		
 		return mid;
 	}
+
+	// 비밀번호 재설정을 위한 회원존재여부 확인 (아이디,닉네임,이메일)
+	@Override
+	public String getMemberExitsCheckForPwdReset(MemberVO vo, HttpSession session) {
+		
+		if(vo == null) return "notFound";
+		
+		String authNo = RandomStringUtils.randomAlphanumeric(8);
+		
+		try {
+			javaclassProvide.mailSend(vo.getEmail(), "Second DIVE 인증문자입니다", authNo);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		
+		return "exits/" + authNo;
+	}
+
+	// 비밀번호 재설정 실행하기
+	@Override	public int setPwdReset(String mid, String encPwd) {	return memberDAO.setPwdReset(mid, encPwd); }
 
 	
 	

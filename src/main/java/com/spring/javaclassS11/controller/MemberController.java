@@ -1,6 +1,6 @@
 package com.spring.javaclassS11.controller;
 
-import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -52,15 +52,17 @@ public class MemberController {
 		}
 	}
 	
+	// 마이페이지
 	@RequestMapping(value = "/member/myPage" , method = RequestMethod.GET)
 	public String myPageGet(Model model, HttpServletRequest request) { 
 		HttpSession session = request.getSession();
 		String mid = (String)session.getAttribute("sMid");
 		if(mid == null || mid.equals("")) return "redirect:/message/sessionOff"; 		
 		MemberVO vo = memberService.getMemberIdCheck(mid);		
-		
-		
+		int totWriteCnt = memberService.getTotCnt("write", mid);
+		//int totReplyWriteCnt = memberService.getTotCnt("ReplyWrite", mid);
 		model.addAttribute("vo", vo);
+		model.addAttribute("totWriteCnt", totWriteCnt);
 		return "member/myPage"; 
 	}
 	
@@ -87,30 +89,7 @@ public class MemberController {
 				else if(vo.getMemLevel() == 99 && vo.getBlockCnt() <= 2) {
 					memberService.setBlockDateOver(mid);
 				}
-			}
-			
-			
-			/*
-			else if(vo.getMemLevel() == 99) {	
-				
-				// 제제기간이 전부 끝난 뒤 제재횟수가 3번 이상인 회원의 자격심사(로그인 방지)
-				if(vo.getBlockCnt() >= 3 && blockDate_diff <= 0) {
-					System.out.println("제제횟수 3번 이상");
-					return "redirect:/message/memberBlockCntOverThree?mid="+mid;
-				}
-				// 제재종료회원(제재기간 종료&제제횟수 3회 미만)
-				else if(blockDate_diff <= 0 && vo.getBlockCnt() < 3) {
-					System.out.println("제제횟수 3번 미만");
-					memberService.setBlockDateOver(mid);
-				}
-				// 제재회원(남은 제재기간 안내)
-				else {
-					System.out.println("제제기간 남음");
-					return "redirect:/message/memberLoginBlockMember?blockDate="+blockDate_diff; 
-				}
-			}
-			*/
-				
+			}				
 			
 			// 로그인 성공 시 세션처리 
 			HttpSession session = request.getSession();
@@ -126,6 +105,9 @@ public class MemberController {
 			else if(vo.getMemLevel() == 113) strLevel = "전체관리자";
 			else if(vo.getMemLevel() == 114) strLevel = "대표운영자";
 			
+			if(!vo.getMemberImage().equals("eImg.jpg")) {
+				session.setAttribute("memberImage", vo.getMemberImage());
+			}
 		      
 			LocalDateTime now = LocalDateTime.now();        
 
@@ -159,12 +141,14 @@ public class MemberController {
 	@RequestMapping(value = "/member/memberJoin" , method = RequestMethod.GET)
 	public String memberJoinGet() { return "member/memberJoin"; }
 	
+	
 	// 회원가입 처리
 	@RequestMapping(value = "/member/memberJoin" , method = RequestMethod.POST)
-	public String memberJoinPost(MemberVO vo) { 
+	public String memberJoinPost(MemberVO vo, MultipartFile fName) throws IOException { 
 		int res = 0;
+		System.out.println(vo);
 		
-		if(vo.getMemberImage().equals("") || vo.getMemberImage() == null) vo.setMemberImage("eImg.jpg");
+		if(fName == null) vo.setMemberImage("eImg.jpg");
 		
 		vo.setPwd(passwordEncoder.encode(vo.getPwd()));
 		String imsiTel = vo.getTel();
@@ -176,11 +160,13 @@ public class MemberController {
 		vo.setTel(tel);
 		
 		String uid = UUID.randomUUID().toString().substring(0,8);
-		String oFileName = vo.getMemberImage();
+		String oFileName = fName.getOriginalFilename();
 		String sFileName = vo.getMid() + "_" + uid + "_" + oFileName;
-		//javaclassProvide.writeFile(fName, sFileName, "member");
+		vo.setMemberImage(sFileName);
+		javaclassProvide.writeFile(fName, sFileName, "member");
 		
 		// 회원사진저장(서비스 객체에서 처리후 저장)		
+		
 		res = memberService.setMemberJoin(vo);
 		
 		if(res != 0) return "redirect:/message/memberJoinOk"; 
@@ -226,6 +212,33 @@ public class MemberController {
 		
 		model.addAttribute("vo", vo);
 		return "member/memberInfoUpdate"; 
+	}
+	
+	// 회원정보 업데이트 실행
+	@RequestMapping(value = "/member/memberInfoUpdate" , method = RequestMethod.POST)
+	public String memberInfoUpdatePost(Model model, HttpServletRequest request ,HttpSession session, MemberVO vo, MultipartFile fName) throws IOException { 
+		String mid = (String)session.getAttribute("sMid");
+		System.out.println("회원정보수정 vo : " + vo);
+		
+		// 사진 수정하지 않음.. 사진은 그대로
+		if(fName.getOriginalFilename() == null || fName.getOriginalFilename().equals("")) {
+			int res = memberService.setMemberInfoUpdate(vo, mid, 0);
+			if(res != 0) return "redirect:/message/memberInfoUpdateOk";
+		}
+		// 사진이 수정됨
+		else {
+			
+			String fileName = fName.getOriginalFilename();
+			String sFileName = javaclassProvide.saveFileName(fileName, mid);
+			javaclassProvide.writeFile(fName, sFileName, "member");
+			session.removeAttribute("memberImage");
+			session.setAttribute("memberImage", sFileName);
+			vo.setMemberImage(sFileName);
+			int res = memberService.setMemberInfoUpdate(vo, mid, 1);
+			if(res != 0) return "redirect:/message/memberInfoUpdateOk"; 
+		}
+		
+		return "redirect:/message/memberInfoUpdateNo"; 
 	}
 	
 	// 아이디 찾기 화면

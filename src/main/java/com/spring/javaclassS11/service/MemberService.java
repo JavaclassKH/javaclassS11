@@ -24,5 +24,9 @@ public interface MemberService {
 
 	public int setPwdReset(String mid, String encPwd);
 
+	public int setMemberInfoUpdate(MemberVO vo, String mid, int sw);
+
+	public int getTotCnt(String what, String mid);
+
 
 }

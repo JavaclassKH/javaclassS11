@@ -11,7 +11,7 @@ complainCnt int default 0,                               /* 신고당한 횟수 
 good int default 0,                                      /* 좋아요 */
 bad int default 0,                                       /* 싫어요 */
 primary key(idx),
-foreign key(mid) references member(mid) ON UPDATE CASCADE 
+foreign key(mid) references memberSS(mid) ON UPDATE CASCADE 
 );
 
 select * from freeboard;

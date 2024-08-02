@@ -42,7 +42,6 @@
 		
 	}
 	
-	
 	function agreeCheck() {
 	 // 모든 체크박스를 이름으로 가져옵니다
 	  let checkboxes = document.getElementsByName('checkboxes');
@@ -64,6 +63,52 @@
 	    alert('모든 약관에 동의해야 회원가입을 진행할 수 있습니다');
 	  }
 	}
+	
+	
+	// 버튼을 눌렀을 때 ajax를 이용해 파일 include하기 (가입약관)
+	$(document).ready(function(){
+		let c1 = document.getElementById("c1");
+		let c2 = document.getElementById("c2");
+		let c3 = document.getElementById("c3");
+		
+		if(c1.checked) {
+		  $.ajax({
+        url: "${ctp}/resources/texts/agree1",
+        type: "GET",
+        success: function(response) {
+        	alert(response);
+          $("#" + agree1).text(response);
+        }
+		  });	
+		}
+		else if(c2.checked) {
+		  $.ajax({
+        url: "${ctp}/resources/texts/agree2",
+        type: "GET",
+        success: function(response) {
+          $("#" + agree2).text(response);
+        }
+		  });	
+		}
+		else if(c3.checked) {
+			$.ajax({
+        url: "${ctp}/resources/texts/agree3",
+        type: "GET",
+        success: function(response) {
+          $("#" + agree3).text(response);
+        }
+		  });	
+		}
+		
+	});
+
+	
+	// 화장실...
+	
+	
+	
+	
+	
 </script>
 </head>
 <body>
@@ -73,9 +118,12 @@
   <h2 class="text-center"><b>Second DIVE 회원가입을 환영합니다~</b></h2>
   <form name="checkboxesForm">
   	<div class="checkBoxes">
-  		<input type="checkbox" name="checkboxes" id="c1" /> 이용약관 동의(필수) <br/><br/>
+  		<input type="checkbox" name="checkboxes" id="c1" /> 이용약관 동의(필수)<br/>
+  		<div id="agree1" style="display: none;"></div><br/><br/>
   		<input type="checkbox" name="checkboxes" id="c2" /> 개인정보 수집, 이용 동의(필수) <br/><br/>
+  		<div id="agree2" style="display: none;"></div><br/><br/>
   		<input type="checkbox" name="checkboxes" id="c3" /> 개인정보 이용 동의(필수) <br/><br/>
+  		<div id="agree3" style="display: none;"></div><br/><br/>
   	</div>
   </form><br/>
  	<div class="mt-5" style="margin-left: 352px;">

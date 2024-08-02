@@ -26,4 +26,8 @@ public interface MemberDAO {
 
 	public int setPwdReset(@Param("mid") String mid,@Param("encPwd") String encPwd);
 
+	public int setMemberInfoUpdate(@Param("vo") MemberVO vo, @Param("mid") String mid,@Param("sw") int sw);
+
+	public int getTotCnt(@Param("what") String what, @Param("mid") String mid);
+
 }

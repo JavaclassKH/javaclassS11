@@ -32,9 +32,15 @@
   	<p>이메일 :&nbsp; ${vo.email}</p><br/> 
   	<p>가입일 :&nbsp; ${fn:substring(vo.joinDate,0,11)}</p><br/> 
   	<p>방문횟수 :&nbsp; ${vo.visitCnt}</p><br/> 
-  	<p>작성 글 수 :&nbsp; ${vo.totWriteCnt}</p><br/> 
-  	<p>작성댓글 수 :&nbsp; ${vo.totReplyWriteCnt}</p><br/><br/><br/>
+  	<p>작성 글 수 :&nbsp; ${totWriteCnt}</p><br/> 
+  	<p>작성댓글 수 :&nbsp; ${vo.totReplyWriteCnt}</p><br/><br/>
   	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  	<br/><p> 대표이미지 </p><br/>
+  	<div>
+  		<c:if test="${memberImage != 'eImg.jpg'}">
+	  		<img src="${ctp}/resources/data/member/${memberImage}" width="400" height="315" style="border: 1px dotted gray; border-radius: 10%;" />
+  		</c:if>
+  	</div><br/><br/>
 	  <div class="btns">
 	  	<a href="${ctp}/member/memberInfoUpdate" class="btn btn-danger mr-4">정보수정</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	  	<button onclick="" class="btn btn-warning mr-4">비밀번호변경</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

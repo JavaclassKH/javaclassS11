@@ -21,6 +21,8 @@
 		$("#resultBoxImg").hide();		
 	});
 	
+	
+	
 	// 분위기에 맞는 곡 찾기
 	function search() {
 		let search = $("#search").val();
@@ -58,6 +60,7 @@
 					$("#songName").text(vo.songName);
 					$("#singer").text(vo.singer);
 					$("#genre").text(vo.genre);
+					$("#recVibe").text(vo.recVibe);
 					$("#resultBoxImg").html(recAlbumImg);
 					reSw = 1;
 				}
@@ -115,7 +118,7 @@
 		</div>
 	</div><br/><br/>  
 	<div id="resultBox">
-		<p><b>이 노래는 어떠세요??</b></p>
+		<p style="margin-left: 10px;"><b><font size="6px">이 노래는 어떠세요??</font></b></p>
 		<table class="table text-center">
 			<tr class="text-center">
 				<th scope="col">제목</th>

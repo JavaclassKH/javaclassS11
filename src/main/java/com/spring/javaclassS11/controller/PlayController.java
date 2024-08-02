@@ -1,7 +1,6 @@
 package com.spring.javaclassS11.controller;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,6 +30,11 @@ public class PlayController {
 		return "play/randomSongRecommand";
 	}
 	
+	// 원영적사고 
+	@RequestMapping(value = "/play/luckyvicky" , method = RequestMethod.GET)
+	public String luckyvickyGet() { return "test/luckyvicky"; }
+	
+	// 검색해서 노래 추천
 	@ResponseBody
 	@RequestMapping(value = "/play/randomSongRecommandSearch" , method = RequestMethod.POST)
 	public RandomSongRecommandVO randomSongRecommandSearchPost(Model model, String search) {
@@ -38,36 +42,13 @@ public class PlayController {
 		return vo; 
 	}
 	
+	// 랜덤으로 노래 추천
 	@ResponseBody
 	@RequestMapping(value = "/play/randomSongRecommand" , method = RequestMethod.POST)
 	public RandomSongRecommandVO randomSongRecommandPost(Model model, String search) {
 		RandomSongRecommandVO vo = playService.getRandomSongRecommand();
 		return vo; 
 	}
-	
-	// IVE Quiz! 
-	/*
-	 1. 문제를 랜덤하게[order by rand() limit 1;]하나만 가져온다.
-	 2. 가져온 문제의 idx를 잠시 저장한다. 그리고 다음 문제를 가져올 땐 이미 가져온 문제의 idx를 제외하고 가져오게 한다
-	 Q1. 가져온 문제의 idx를 어디에 저장하면 좋을까? (session? application? request? pageContext? Array?)
-	 Q2. idx를 배열에 저장하면 view에서 문제를 출력하고 다시 이 메소드로 돌아왔을 때 Garbage Collector에 의해 값이 제거되어있을텐디..?
-	 Q3. 그러면 문제가 여러개가 출제되면 idx값은 여러개가 되니 반복문을 사용?
-	 EX) 세션을 사용한다고 생각하면? 
-	 	 IVEQuizVO vo = playservice.getExample();
-	 	 vo.getIdx = session.setAttribute("quizIdx1");
-	 	
-	 	 for(int i=1; i<=session.getAttribute("quizIdx"+i).length; i++) {
-	 		 if(Integer.parseint(session.getAttribute("quizIdx"+i))) == vo.getIdx) {
-	 		 IVEQuizVO vo = playservice.getExample();	 		
-	 	 }
-	 	
-	 EX) VO를 사용한다고 생각하면?
- 	 	 QuizIdxVO를 만들어서 quizIdx1~quizIdx10을 필드로 생성한 뒤 vo에 계속 값을 저장?
- 	   QuizIdxVo quizIdxVo = new QuizIdxVo();
- 	 	 IVEQuizVO vo = playservice.getExample();
- 		 quizIdxVo.setQuizIdx1(vo.getIdx()); 
-	 	 
-	*/  
 	
 	// 퀴즈파크 초기화면 (IVEQuiz.jsp를 불러주고 이 다음부터는 iframe 안에서 움직이게 된다)
 	@RequestMapping(value = "/play/IVEQuiz/{part}" , method = RequestMethod.GET)
@@ -77,20 +58,16 @@ public class PlayController {
 		return "play/IVEQuiz";	
 	}
 	
-
-			
-	
-	
+	// 퀴즈파크에서 iframe 내에 메인화면 불러오기
 	@RequestMapping(value = "/play/quizMain" , method = RequestMethod.GET)
-	public String iframeQuizMainGet() {
-		return "play/quizMain";
-	}
+	public String iframeQuizMainGet() { return "play/quizMain"; }
 	
+	// 아이브퀴즈 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/play/IVEInfoQuiz/{check}" , method = RequestMethod.GET)
 	public String iframeIVEInfoQuizGet(@PathVariable(name="check") String check, HttpSession session, Model model,
 		@RequestParam(name="score", defaultValue = "1", required = false) int score) {
 		IVEQuizVO vo = null;
-		
 		
 		if(check.equals("before")) return "play/IVEInfoQuiz";
 		else if(check.equals("start")){
@@ -104,9 +81,6 @@ public class PlayController {
 			}
 			else {  
 				if(quizAnswers.size() != 10) {
-					Integer nowScore = (Integer) session.getAttribute("score");
-					if (nowScore == null) nowScore = 0;
-					if (nowScore != 0) session.setAttribute("score", nowScore + score);
 					reroll:while(quizAnswers.size() != 10) { 
 						vo = playService.getIVEInfoQuizList("IVEInfoQuiz");
 						if(quizAnswers.contains(vo.getQuizAnswer())) continue reroll; 

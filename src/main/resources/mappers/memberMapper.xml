@@ -21,7 +21,15 @@
 	<select id="getMemberExitsCheckForPwdReset" resultType="com.spring.javaclassS11.vo.MemberVO">
 		select * from memberSS where mid = #{vo.mid}, nickName = #{vo.nickName}, email = #{vo.email};		
 	</select>
-
+	
+	<select id="getTotCnt" resultType="int">
+		SELECT 
+    (SELECT COUNT(*) FROM freeBoard WHERE mid = #{mid}) +
+    (SELECT COUNT(*) FROM toIVE WHERE mid = #{mid}) +
+    (SELECT COUNT(*) FROM songSuggestions WHERE mid = #{mid}) +
+    (SELECT COUNT(*) FROM choreographySuggestions WHERE mid = #{mid}) AS totWriteCnt;
+	</select>
+	<!-- (SELECT COUNT(*) FROM selfContentSuggestion WHERE mid = 'admin')  -->
 <!-- insert -->	
 	<insert id="setMemberJoin">
 		insert into memberSS values (default,#{vo.mid},#{vo.pwd},#{vo.name},#{vo.nickName},#{vo.tel},#{vo.email},#{vo.birthday},
@@ -47,6 +55,26 @@
 	<update id="setPwdReset">
 		update memberSS set pwd = #{encPwd} where mid = #{mid};		
 	</update>
+	
+<!-- 	<update id="setMemberInfoUpdate">
+		<if test="${vo.memberImage != null}">
+			update memberSS set birthday = #{vo.birthday} , tel = #{vo.tel} , address = #{vo.address} , memberImage = #{vo.memberImage} where mid = #{mid};
+		</if>
+		<if test="${vo.memberImage == null || vo.memberImage == ''}">
+			update memberSS set birthday = #{vo.birthday} , tel = #{vo.tel} , address = #{vo.address} where mid = #{mid};
+		</if>
+	</update> -->
+	
+	<update id="setMemberInfoUpdate">
+  <choose>
+    <when test="sw == 0">
+      update memberSS set birthday = #{vo.birthday} , tel = #{vo.tel} , address = #{vo.address} where mid = #{mid};
+    </when>
+    <otherwise>
+      update memberSS set birthday = #{vo.birthday} , tel = #{vo.tel} , address = #{vo.address} , memberImage = #{vo.memberImage} where mid = #{mid};
+    </otherwise>
+  </choose>
+</update>
 
 <!-- delete -->	
 

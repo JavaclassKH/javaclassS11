@@ -3,6 +3,7 @@ package com.spring.javaclassS11.service;
 import java.util.ArrayList;
 
 import com.spring.javaclassS11.vo.BlockReasonDataVO;
+import com.spring.javaclassS11.vo.LobbyPostVO;
 import com.spring.javaclassS11.vo.MemberVO;
 import com.spring.javaclassS11.vo.RandomSongRecommandVO;
 
@@ -49,6 +50,18 @@ public interface AdminService {
 	public int setMemberGiveAdmin(int idx, int memLevel, String part);
 
 	public int setAuthorityDelete(int idx);
+
+	public ArrayList<RandomSongRecommandVO> getSongList();
+
+	public int setRandomSongRecommandDelete(int idx);
+
+	public RandomSongRecommandVO getRecommandSongList(int idx);
+
+	public ArrayList<LobbyPostVO> getLobbyPost();
+
+	public int setLobbyPostInsert(String nickName, String post);
+
+	public int setRecommandSongUpdate(int idx, RandomSongRecommandVO vo);
 
 
 

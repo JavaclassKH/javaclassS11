@@ -14,4 +14,5 @@ public class RandomSongRecommandVO {
 	private String genre;
 	private String recAlbumImg;
 	private String recVibe;
+	private String recommandSongIdxKey;
 }

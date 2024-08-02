@@ -52,10 +52,10 @@
 	<h2 class="text-center"><b><font size="30px">Quiz Park</font></b></h2>
 	<p><br/></p>
 	<c:if test="${part == 'main'}">
-		<iframe src="${ctp}/play/quizMain" width="1080" height="700" style="margin-left: 70px;" name="quizMain" id="quizMain"></iframe>	
+		<iframe src="${ctp}/play/quizMain" width="1080" height="700" style="margin-left: 70px; border:none;" name="quizMain" id="quizMain"></iframe>	
 	</c:if>
 	<c:if test="${part == 'IVEInfoQuiz'}">
-		<iframe src="${ctp}/play/IVEInfoQuiz" width="1080" height="700" style="margin-left: 70px;" name="IVEInfoQuiz" id="IVEInfoQuiz"></iframe>
+		<iframe src="${ctp}/play/IVEInfoQuiz" width="1080" height="700" style="margin-left: 70px; border:none;" name="IVEInfoQuiz" id="IVEInfoQuiz"></iframe>
 	</c:if>
 </div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />  

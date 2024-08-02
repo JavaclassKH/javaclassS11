@@ -42,7 +42,9 @@ public class MemberServiceImpl implements MemberService {
 		else return;
 	}
 
-	// 
+	// 회원정보 확인시 총 작성글 수, 총 작성댓글 수 가져오기
+	@Override	public int getTotCnt(String what, String mid) { return memberDAO.getTotCnt(what, mid); }
+	
 	@Override	public void setBlockDateOver(String mid) { memberDAO.setBlockDateOver(mid); }
 
 	// 닉네임, 이메일로 아이디 찾기
@@ -80,6 +82,10 @@ public class MemberServiceImpl implements MemberService {
 
 	// 비밀번호 재설정 실행하기
 	@Override	public int setPwdReset(String mid, String encPwd) {	return memberDAO.setPwdReset(mid, encPwd); }
+
+	// 회원정보 업데이트하기
+	@Override public int setMemberInfoUpdate(MemberVO vo, String mid, int sw) { System.out.println(vo); return memberDAO.setMemberInfoUpdate(vo, mid, sw); }
+
 
 	
 	

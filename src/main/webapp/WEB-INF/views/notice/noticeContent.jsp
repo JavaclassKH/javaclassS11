@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
+<% pageContext.setAttribute("newLine", "\n"); %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -43,7 +44,7 @@
 	  	작성날짜 ${fn:substring(vo.noticeWDate,2,16)} &nbsp;&nbsp; 
 	  </div><br/><br/><br/><br/>
 	  <div>
-	  	${vo.noticeContent}
+	  	${fn:replace(vo.noticeContent, newline, "<br>")}
 	  </div><br/><hr/>
 </div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />  

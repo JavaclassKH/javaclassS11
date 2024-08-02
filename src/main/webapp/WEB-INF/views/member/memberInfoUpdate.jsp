@@ -10,6 +10,41 @@
   <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
   <link rel="stylesheet" href="${ctp}/resources/css/bodyLeftRight.css">
 <title>Second DIVE - memberInfoUpdate</title>
+<script>
+	'use strict';
+	function memberInfoUpdate() {
+		
+		let tel = memberInfoUpdateForm.tel.value.trim();
+		let address = memberInfoUpdateForm.address.value;   
+		
+		let fName = document.getElementById("file").value;
+		if(fName.trim() != "") {
+			let ext = fName.substring(fName.lastIndexOf(".") + 1).toLowerCase();
+			let maxSize = 1024 * 1024 * 5;
+			let fileSize = document.getElementById("file").files[0].size;
+			
+			if(ext != 'jpg' && ext != 'gif' && ext != 'png') {
+				alert("그림파일만 업로드 가능합니다.");
+				return false;
+			}
+			else if(fileSize > maxSize) {
+				alert("업로드할 파일의 최대용량은 5MByte입니다.");
+				return false;
+			}
+		}		
+		else {
+			memberInfoUpdateForm.fName.value = '${vo.memberImage}';
+		}
+		memberInfoUpdateForm.submit();
+	}
+	
+	// 수정 중단하고 마이페이지로 넘어가기
+	function myPageCheck() {
+		alert("마이페이지로 돌아갑니다");
+		location.href='${ctp}/member/myPage';
+	}
+	
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/header.jsp" /> 
@@ -17,7 +52,7 @@
 <div class="rightSide">
     <div class="infoShow">
  		<h1 style="margin-bottom: 100px;">마이페이지</h1><br/>
- 		<form name="memberInfoUpdateForm" method="post">
+ 		<form name="memberInfoUpdateForm" method="post" enctype="multipart/form-data">
 	  	<p>닉네임 [닉네임 변경은 관리자에게 문의하세요] 
 	  		<input type="text" name="nickName" id="nickName" value="${vo.nickName}" readonly class="form-control" />
 	  	</p>
@@ -44,12 +79,19 @@
 	  	</p><br/> 
 	  	<p>작성댓글 수 
 	  	  ${vo.totReplyWriteCnt}
-	  	</p><br/><br/><br/>
+	  	</p><br/>
 	  	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
- 		</form>
+	  	<div style="padding: 5px; border: 1px dotted gray;">
+	  		<input type="file" name="fName" id="file"  class="form-control-file borderless" />
+	  	</div><br/>
+	  	<div>
+	  		<img src="${ctp}/resources/data/member/${vo.memberImage}" width="400px" height="315px" style="border: 1px dotted gray; border-radius: 10%;" />
+	  	</div>
+	    <input type="hidden" name="fName" />
+ 		</form><br/><br/>
 	  <div class="btns">
-	  	<button onclick="" class="btn btn-danger mr-5">수정하기</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	  	<button onclick="location.href='${ctp}/';" class="btn btn-info mr-5">마이페이지</button>
+	  	<button onclick="memberInfoUpdate()" class="btn btn-danger mr-5">수정하기</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	  	<button onclick="myPageCheck()" class="btn btn-info mr-5">마이페이지</button>
 	  	<button onclick="location.href='${ctp}/';" class="btn btn-light">로비</button>
 	  </div>
 	</div> 

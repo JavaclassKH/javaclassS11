@@ -24,7 +24,7 @@
 		text-align: left;
 		list-style-type: none;
 		vertical-align: middle;
-		height: 950px;
+		height: 1028px;
 	}
 	
 	.memberImage {
@@ -38,7 +38,7 @@
 	  <div class="leftSide">
 	    <div class="cafeInfoCard">
 	      <div class="cafeImage">
-	        <img src="${ctp}/resources/images/HeaderImg.jpg" width="180px" height="150px" />
+	        <img src="${ctp}/resources/images/HeaderImg.png" width="180px" height="150px" />
 	      </div><br/>
 	      <div class="siteName">
 	        아이브(IVE) 팬사이트 <br/>
@@ -52,15 +52,15 @@
 	    </div>
 	    <div class="memberInfoCard">
 		    	<c:if test="${!empty sMid}">
-				    <div class="memberImage">
-				    	<img src="${ctp}/images/eImg.jpg" width="180px" height="150px" />
+				    <div class="memberImage mb-3">
+				    	<img src="${ctp}/resources/data/member/${memberImage}" width="180px" height="150px" />
 				    </div>
-			    		★ 내 정보 ★ 
+				    ★ 내 정보 ★ 
 			    	<p>
 				      닉네임 : ${sNickName} <br/>
 				      회원등급 : ${strLevel} <br/>
 				      <a href="${ctp}/member/myPage" class="btn btn-link mt-2">마이페이지</a>
-				     </p>
+				    </p>
 		    	</c:if>
 		    	<c:if test="${empty sMid}">
 			      <div class="memberImage">
@@ -78,7 +78,7 @@
 		      	<a href="${ctp}/notice/noticeBoard">⊙ 전체공지</a>
 		      </li>
 		      <li>
-		        ⊙ 공식자료
+		        <a href="${ctp}/notice/officialArticle">⊙ 공식기사</a>
 		      </li>
 		      <li>
 		        ⊙ 공식스케줄
@@ -96,23 +96,26 @@
 		        <a href="${ctp}/board/fromIVE">⊙ from. IVE</a>
 		      </li>
 		      <li>
-		        ⊙ to. IVE
+		        <a href="${ctp}/board/toIVE">⊙ to. IVE</a>
 		      </li><hr/>
 		      <li class="liTitle">
 		        ★ Suggestions ★
 		      </li><br/>
 		      <li>
-		        ⊙ 노래제안
+		        <a href="${ctp}/suggestions/songSuggestions">⊙ 노래제안</a>
 		      </li>
 		      <li>
-		        ⊙ 안무제안
+		        <a href="${ctp}/suggestions/choreographySuggestions">⊙ 안무제안</a>
 		      </li>
 		      <li>
-		        ⊙ 자체컨텐츠 제안
+		        <a href="${ctp}/suggestions/selfContentSuggestions">⊙ 자체컨텐츠 제안</a>
 		      </li><hr/>
 		      <li class="liTitle">
 		      	★ Play ★
 		      </li><br/>
+		      <li>
+		        <a href="${ctp}/play/luckyvicky">⊙ 원영적 사고</a>
+		      </li>
 		      <li>
 		        <a href="${ctp}/play/randomSongRecommand">⊙ 랜덤노래추천</a>
 		      </li>
@@ -129,10 +132,16 @@
 		        ⊙ 등업반려
 		      </li>
 		      <li>
-		        ⊙ 건의사항 
+		        ⊙ 문의사항
 		      </li>
 		      <li>
-		        ⊙ 문의사항
+		        <a href="javascript:alert('새로운 기능이 준비중입니다');">⊙ 준비중 1</a>
+		      </li>
+		      <li>
+		        <a href="javascript:alert('새로운 기능이 준비중입니다');">⊙ 준비중 2</a>
+		      </li>
+		      <li>
+		        <a href="javascript:alert('새로운 기능이 준비중입니다');">⊙ 준비중 3</a>
 		      </li>
 	   	 </ui>
 	    </div>

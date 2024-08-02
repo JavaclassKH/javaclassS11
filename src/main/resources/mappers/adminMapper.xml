@@ -18,9 +18,13 @@
 	<select id="getMemberInfoByIdx" resultType="com.spring.javaclassS11.vo.MemberVO">
 		select * from memberSS where idx = #{idx};
 	</select>
+	
+	<select id="getLobbyPost" resultType="com.spring.javaclassS11.vo.LobbyPostVO">
+		select * from lobbyPost order by idx desc;
+	</select>
 
 	<select id="getAdminList" resultType="com.spring.javaclassS11.vo.MemberVO">
-		select * from memberSS where part != 'emp' order by memLevel, part;
+		select * from memberSS where part != 'emp' order by idx, memLevel, part;
 	</select>
 	
 	<select id="getAdminMemberList" resultType="com.spring.javaclassS11.vo.MemberVO">
@@ -65,6 +69,14 @@
 	<select id="getAdministerExistCheck" resultType="com.spring.javaclassS11.vo.MemberVO">
 		select * from memberSS where memLevel = #{memLevel} and part = #{part};
 	</select>
+	
+	<select id="getSongList" resultType="com.spring.javaclassS11.vo.RandomSongRecommandVO">
+		select * from randomSongRecommand order by idx desc;
+	</select>
+	
+	<select id="getRecommandSongList" resultType="com.spring.javaclassS11.vo.RandomSongRecommandVO">
+		select * from randomSongRecommand where idx = #{idx};
+	</select>
 
 <!-- insert -->	
 	<insert id="setRandomSongRecommandInput">
@@ -73,6 +85,10 @@
 	
 	<insert id="setBlockReasonData">
 		insert into blockReasonData values (default,#{vo.mid},#{vo.nickName},#{vo.blockReason},#{vo.blockStartDate},#{vo.blockEndDate},#{vo.blockGiver});
+	</insert>
+	
+	<insert id="setLobbyPostInsert">
+		insert into lobbyPost values (default,#{nickName},#{post});
 	</insert>
 
 <!-- update -->	
@@ -104,11 +120,15 @@
 	<update id="setAuthorityDelete">
 		update memberSS set mid = 'imsiMid#{idx}', nickName = 'imsiNick#{idx}' memLevel = 3, part = 'emp' where idx = #{idx};		
 	</update>
-
-
+	
+	<update id="setRecommandSongUpdate">
+		update randomSongRecommand set songName = #{vo.songName}, songName = #{vo.songName}, genre = #{vo.genre}, recAlbumImg = #{vo.recAlbumImg}, recVibe = #{vo.recVibe} where idx = #{idx};		
+	</update>
 
 <!-- delete -->	
-
+	<delete id="setRandomSongRecommandDelete">
+		delete from randomSongRecommand where idx = #{idx};
+	</delete>
 
 
 

@@ -20,7 +20,7 @@
 	/* <<< 정규식 >>> */ 
 	// 이름: 한글 2~6자
 	const regName= /^[가-힣]{2,6}$/;   
-	// 아이디: 영문 대/소문자와 숫자만을 사용한 3~12자
+	// 아이디: 영문 대/소문자와 숫자만을 사용한 5~12자
 	const regMid= /^[A-Za-z0-9]{5,12}$/;  
 	// 비밀번호:  대문자 1개이상, 소문자 1개이상, 숫자 1개이상, 특수문자 1개이상을 포함한 10~24자
 	const regPwd = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{10,24}$/; 
@@ -141,11 +141,11 @@
 		
 		  
 	  // 전송전에 파일에 관련된 사항들을 체크해준다.
-		let fName = document.getElementById("memberImage").value;
+		let fName = document.getElementById("file").value;
 		if(fName.trim() != "") {
 			let ext = fName.substring(fName.lastIndexOf(".") + 1).toLowerCase();
 			let maxSize = 1024 * 1024 * 5;
-			let fileSize = document.getElementById("memberImage").files[0].size;
+			let fileSize = document.getElementById("file").files[0].size;
 			
 			if(ext != 'jpg' && ext != 'gif' && ext != 'png') {
 				alert("그림파일만 업로드 가능합니다.");
@@ -156,12 +156,11 @@
 				return false;
 			}
 		}
-		else return false;		
 		
 		
 		if(!mid.match(regMid)) {
 			alert("아이디 형식에 맞게 작성해주세요!");
-			alert("영문 대/소문자와 숫자만을 사용한 3~12자");
+			alert("영문 대/소문자와 숫자만을 사용한 5~12자");
 			$("#mid").focus();				
 		}
 		else if(!pwd.match(regPwd)) {
@@ -214,7 +213,7 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/leftSide.jsp" /> 
 <div class="rightSide">
-  <form name="memberJoinForm" method="post" class="was-validated">
+  <form name="memberJoinForm" method="post" class="was-validated" enctype="multipart/form-data">
     <h2 class="text-center"><b>Second DIVE 회원가입 진행</b></h2>
     <br/>
     <div class="form-group"> 아이디
@@ -292,7 +291,7 @@
     </div><br/>
     <div class="form-group">
       대표이미지(2MB 이하까지 가능합니다) 
-      <input type="file" name="memberImage" id="file" class="form-control-file borderless" />
+      <input type="file" name="fName" id="file" class="form-control-file borderless" />
     </div><br/>
     <div class="text-right">
 	    <button type="button" class="btn btn-light mr-3" onclick="joinCheck()">회원가입</button> 

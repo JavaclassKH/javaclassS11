@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaclassS11.vo.BlockReasonDataVO;
+import com.spring.javaclassS11.vo.LobbyPostVO;
 import com.spring.javaclassS11.vo.MemberVO;
 import com.spring.javaclassS11.vo.RandomSongRecommandVO;
 
@@ -51,5 +52,17 @@ public interface AdminDAO {
 	public int setMemberGiveAdmin(@Param("idx") int idx,@Param("memLevel") int memLevel,@Param("part") String part);
 
 	public int setAuthorityDelete(@Param("idx") int idx);
+
+	public ArrayList<RandomSongRecommandVO> getSongList();
+
+	public int setRandomSongRecommandDelete(@Param("idx") int idx);
+
+	public RandomSongRecommandVO getRecommandSongList(@Param("idx") int idx);
+
+	public ArrayList<LobbyPostVO> getLobbyPost();
+
+	public int setLobbyPostInsert(@Param("nickName") String nickName,@Param("post") String post);
+
+	public int setRecommandSongUpdate(@Param("idx") int idx,@Param("vo") RandomSongRecommandVO vo);
 
 }

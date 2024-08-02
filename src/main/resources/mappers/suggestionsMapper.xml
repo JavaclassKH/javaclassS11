@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS11.dao.SuggestionsDAO">
+<!-- select -->	
+	
+	<select id="getsongSuggestionsList" resultType="com.spring.javaclassS11.vo.SongSuggestionsVO">
+		select * from songSuggestions order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	
+	<select id="getSongSuggestionsContent" resultType="com.spring.javaclassS11.vo.SongSuggestionsVO">
+		select * from songSuggestions where idx = #{idx};		
+	</select>
+	
+	<select id="getChoreographySuggestionsList" resultType="com.spring.javaclassS11.vo.ChoreographySuggestionsVO">
+		select * from choreographySuggestions order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	
+	<select id="getChoreographySuggestionsContent" resultType="com.spring.javaclassS11.vo.ChoreographySuggestionsVO">
+		select * from choreographySuggestions where idx = #{idx};		
+	</select>
+
+<!-- insert -->	
+
+	<insert id="setSongSuggestionsInput">
+		insert into songSuggestions values (default,#{vo.mid},#{vo.nickName},#{vo.songSuggestionsTitle},#{vo.songSuggestionsContent},#{vo.songFileOriginName},#{vo.songFileName},default);
+	</insert>
+
+	<insert id="setChoreographySuggestionsInput">
+		insert into choreographySuggestions values (default,#{vo.mid},#{vo.nickName},#{vo.choreographySuggestionsTitle},#{vo.choreographySuggestionsContent},#{vo.choreographyFileOriginName},#{vo.choreographyFileName},default);
+	</insert>
+
+
+
+
+<!-- update -->	
+
+
+
+
+
+<!-- delete -->	
+
+
+
+
+
+</mapper>

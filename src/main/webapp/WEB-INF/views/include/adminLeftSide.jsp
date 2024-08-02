@@ -38,7 +38,7 @@
 	  <div class="leftSide">
 	    <div class="cafeInfoCard">
 	      <div class="cafeImage">
-	        <img src="${ctp}/resources/images/HeaderImg.jpg" width="180px" height="150px" />
+	        <img src="${ctp}/resources/images/HeaderImg.png" width="180px" height="150px" />
 	      </div><br/>
 	      <div class="siteName">
 	        아이브(IVE) 팬사이트 <br/>
@@ -51,8 +51,8 @@
 	      </div>
 	    </div>
 	    <div class="memberInfoCard">
-	      <div class="memberImage">
-		    	<img src="${ctp}/images/noLogin.jpg" width="180px" height="150px" />
+	      <div class="memberImage mb-3">
+		    	<img src="${ctp}/resources/data/member/${memberImage}" width="180px" height="150px" />
 		    </div>
 		    <p>관리자모드가 실행중입니다</p>
 		    <p>

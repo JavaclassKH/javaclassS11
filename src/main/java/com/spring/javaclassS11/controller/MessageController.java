@@ -20,7 +20,8 @@ public class MessageController {
 			@RequestParam(name="idx", defaultValue = "0", required = false) int idx,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
 			@RequestParam(name="pageSize", defaultValue = "5", required = false) int pageSize,
-			@RequestParam(name="blockDate", defaultValue = "30", required = false) int blockDate 
+			@RequestParam(name="blockDate", defaultValue = "30", required = false) int blockDate, 
+			@RequestParam(name="songName", defaultValue = "", required = false) String songName 
 			) {
 		
 		HttpSession session = request.getSession();
@@ -134,6 +135,63 @@ public class MessageController {
 			model.addAttribute("msg", "비밀번호 재설정에 실패하였습니다\n비밀번호 변경을 재시도해주세요");
 			model.addAttribute("url", "member/memberLogin");
 		}
+		else if(msgFlag.equals("memberInfoUpdateOk")) {
+			model.addAttribute("msg", "회원정보가 수정되었습니다");
+			model.addAttribute("url", "member/myPage");
+		}
+		else if(msgFlag.equals("memberInfoUpdateNo")) {
+			model.addAttribute("msg", "회원정보 수정에 실패하였습니다");
+			model.addAttribute("url", "");
+		}
+		else if(msgFlag.equals("level0Cut")) {
+			model.addAttribute("msg", "로그인 후 이용해주세요");
+			model.addAttribute("url", "member/memberLogin");
+		}
+		else if(msgFlag.equals("freeBoardInputLevel2")) {
+			model.addAttribute("msg", "자유게시판 글 작성은 정회원 이상 가능합니다");
+			model.addAttribute("url", "board/freeBoard");
+		}
+		else if(msgFlag.equals("fromIVEListLevel2")) {
+			model.addAttribute("msg", "from.IVE 게시판은 정회원 이상 입장 가능합니다");
+			model.addAttribute("url", "board/freeBoard");
+		}
+		else if(msgFlag.equals("toIVEListLevel2")) {
+			model.addAttribute("msg", "to.IVE 게시판은 정회원 이상 입장 가능합니다");
+			model.addAttribute("url", "board/freeBoard");
+		}
+		else if(msgFlag.equals("songSuggestionsInputOk")) {
+			model.addAttribute("msg", "노래제안이 등록되었습니다");
+			model.addAttribute("url", "suggestions/songSuggestions");
+		}
+		else if(msgFlag.equals("songSuggestionsInputNo")) {
+			model.addAttribute("msg", "노래제안이 등록에 실패하였습니다");
+			model.addAttribute("url", "suggestions/songSuggestionsInput");
+		}
+		else if(msgFlag.equals("songSuggestionsLevel4")) {
+			model.addAttribute("msg", "노래제안게시판은 우수회원 이상 입장 가능합니다");
+			model.addAttribute("url", "board/freeBoard");
+		}
+		else if(msgFlag.equals("randomSongRecommandDeleteOk")) {
+			model.addAttribute("msg", "랜덤노래추천 목록에서 곡 ["+songName+"] 이 삭제되었습니다");
+			model.addAttribute("url", "admin/adminRandomSongRecommand");
+		}
+		else if(msgFlag.equals("randomSongRecommandDeleteNo")) {
+			model.addAttribute("msg", "랜덤노래추천 목록에서 곡 ["+songName+"] 삭제에 실패하였습니다");
+			model.addAttribute("url", "admin/adminRandomSongRecommand");
+		}
+		else if(msgFlag.equals("choreographySuggestionsLevel4")) {
+			model.addAttribute("msg", "안무제안게시판은 우수회원 이상 입장 가능합니다");
+			model.addAttribute("url", "board/freeBoard");
+		}
+		else if(msgFlag.equals("choreographySuggestionsInputOk")) {
+			model.addAttribute("msg", "안무제안이 등록되었습니다");
+			model.addAttribute("url", "board/freeBoard");
+		}
+		else if(msgFlag.equals("choreographySuggestionsInputNo")) {
+			model.addAttribute("msg", "안무제안 등록에 실패하였습니다");
+			model.addAttribute("url", "suggestions/choreographySuggestionsInput");
+		}
+
 		
 		
 		

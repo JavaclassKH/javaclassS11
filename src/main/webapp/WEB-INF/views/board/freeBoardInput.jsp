@@ -36,7 +36,7 @@
 <jsp:include page="/WEB-INF/views/include/header.jsp" /> 
 <jsp:include page="/WEB-INF/views/include/leftSide.jsp" /> 
 <div class="rightSide">
-	<h2>전체공지 작성</h2><br/>
+	<h2>자유게시판 작성</h2><br/>
 	<form name="freeBoardInputForm" method="post">
 		<table class="table">
 			<tr>

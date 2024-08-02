@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.spring.javaclassS11.dao.AdminDAO;
 import com.spring.javaclassS11.vo.BlockReasonDataVO;
+import com.spring.javaclassS11.vo.LobbyPostVO;
 import com.spring.javaclassS11.vo.MemberVO;
 import com.spring.javaclassS11.vo.RandomSongRecommandVO;
 
@@ -17,12 +18,13 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	AdminDAO adminDAO;
-	/** leftSide에 사용할 카페정보 잠시 adminService 빌려서 처리함 */
-	@Override	public String getMasterNickName() { return adminDAO.getMasterNickName(); } 
-	
-	@Override	public int getCafeMemberCount() { return adminDAO.getCafeMemberCount();	}
 
+	/** leftSide에 사용할 카페 정보를 잠시 adminService을 빌려서 처리함 */
+	@Override	public String getMasterNickName() { return adminDAO.getMasterNickName(); } 
+	@Override	public int getCafeMemberCount() { return adminDAO.getCafeMemberCount();	}
 	@Override	public int getCafeVisitCount() { return adminDAO.getCafeVisitCount(); }
+	@Override public ArrayList<LobbyPostVO> getLobbyPost() { return adminDAO.getLobbyPost(); }
+	@Override public int setLobbyPostInsert(String nickName, String post) { return adminDAO.setLobbyPostInsert(nickName, post); }
 
 	/** 진짜 Admin에서 사용 */
 	// 관리자목록 가져오기
@@ -50,20 +52,14 @@ public class AdminServiceImpl implements AdminService {
 	@Override	public MemberVO getAdminMemberSearch(String memberSearch, String flag) { return adminDAO.getAdminMemberSearch(memberSearch, flag); }
 
 	// 회원 제재시스템 관리(부여,수정,삭제)
-	@Override	public int setAdminMemberBlockManagement(BlockReasonDataVO vo, String str) {	return adminDAO.setAdminMemberBlockManagement(vo, str); }
+	@Override	public int setAdminMemberBlockManagement(BlockReasonDataVO vo, String str) { return adminDAO.setAdminMemberBlockManagement(vo, str); }
 
 	// 랜덤노래추천 노래 추가
 	@Override public int setRandomSongRecommandInput(RandomSongRecommandVO vo) { 
 	
 		String size = vo.getRecAlbumImg().replace("width=\"560\" ", "width=\"100%\" ");
 		size = size.replace("height=\"315\"", "height=\"645\"");
-		vo.setRecAlbumImg(size);
-		
-		//String t1 = vo.getRecAlbumImg().substring(vo.getRecAlbumImg().indexOf("w"), vo.getRecAlbumImg().indexOf("w") + 12);
-		//System.out.println("t1 : " + t1);
-		//String t2 = vo.getRecAlbumImg().substring(vo.getRecAlbumImg().indexOf("h"), vo.getRecAlbumImg().indexOf("w") + 13);
-		//System.out.println("t2 : " + t2);
-		
+		vo.setRecAlbumImg(size);		
 		
 		return adminDAO.setRandomSongRecommandInput(vo);
 	}
@@ -118,15 +114,23 @@ public class AdminServiceImpl implements AdminService {
 	public int setAuthorityDelete(int idx) { 
 		String mid_ = RandomStringUtils.randomAlphanumeric(8);
 		String nickName_ = RandomStringUtils.randomAlphanumeric(4) + UUID.randomUUID().toString().substring(0,6);
-		
-		//MemberVO vo = adminDAO.getChangeMidNickNameCheck();
-		//if(vo != null) {
-			
-		//}
-		
-		
 		return adminDAO.setAuthorityDelete(idx);		
 	}
+
+	// 랜덤노래추천 관리화면에 노래명단띄우기
+	@Override	public ArrayList<RandomSongRecommandVO> getSongList() { return adminDAO.getSongList(); }
+
+	// 랜덤노래추천 선택곡 삭제
+	@Override	public int setRandomSongRecommandDelete(int idx) { return adminDAO.setRandomSongRecommandDelete(idx); }
+
+	// 랜덤노래추천 선택곡 수정하기
+	@Override public RandomSongRecommandVO getRecommandSongList(int idx) { return adminDAO.getRecommandSongList(idx); }
+
+	// 랜덤노래추천 선택곡 수정하기
+	@Override public int setRecommandSongUpdate(int idx, RandomSongRecommandVO vo) { return adminDAO.setRecommandSongUpdate(idx, vo); }
+
+	
+
 	
 
 

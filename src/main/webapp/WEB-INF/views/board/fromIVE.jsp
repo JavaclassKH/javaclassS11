@@ -51,7 +51,7 @@
 	<h5 class="h">Second DIVE fromIVE 게시판입니다</h5><br/>
 	<div id="write">
 		<c:if test="${sLevel == 5}">
-			<button onclick="location.href='${ctp}/board/boardInput';" id="writeBtn" class="btn btn-light">글쓰기</button>
+			<button onclick="location.href='${ctp}/board/fromIVEInput';" id="writeBtn" class="btn btn-light">글쓰기</button>
 		</c:if>
 		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
     <select name="pageSize" id="pageSize" onchange="pageSizeCheck(this.value)">
@@ -80,8 +80,8 @@
 		  				${curScrStartNo}
 		  			</td>
 		  			<td scope="row">
-		  				<a href="${ctp}/board/freeBoardContent?idx=${vo.idx}">
-			  				${vo.title}
+		  				<a href="${ctp}/board/fromIVEContent?idx=${vo.idx}">
+			  				${vo.fromIVETitle}
 		  				</a>
 		  			</td>
 		  			<td scope="row">

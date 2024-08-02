@@ -142,10 +142,9 @@ public class AdminController {
 		
 		HttpSession session = request.getSession();
 		
-		if(str != "d") {
+		if(!str.equals("d")) {
 			String nickName = (String) session.getAttribute("sNickName");
 			vo.setBlockGiver(nickName);
-			
 			adminService.setBlockReasonData(vo);			
 		}
 		
@@ -156,9 +155,12 @@ public class AdminController {
 
 	// 랜덤노래추천 관리화면
 	@RequestMapping(value = "/admin/adminRandomSongRecommand" , method = RequestMethod.GET)
-	public String adminRandomSongRecommandGet(HttpServletRequest request) {
+	public String adminRandomSongRecommandGet(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		int sRandomsongRecommandSw = 0;
+		
+		ArrayList<RandomSongRecommandVO> vos = adminService.getSongList();
+		model.addAttribute("vos", vos);
 		session.setAttribute("sRandomsongRecommandSw", sRandomsongRecommandSw);
 		return "admin/adminRandomSongRecommand"; 
 	}
@@ -225,12 +227,27 @@ public class AdminController {
 		return result + "";
 	}
 	
-	
 	// 관리자 권한제거
 	@ResponseBody
 	@RequestMapping(value = "/admin/authorityDelete" , method = RequestMethod.POST)
 	public String authorityDeletePost(int idx) {
 		int res = adminService.setAuthorityDelete(idx);
+		return res + "";
+	}
+	
+	// 랜덤노래추천 곡 삭제
+	@RequestMapping(value = "/admin/adminRandomSongRecommandDelete" , method = RequestMethod.GET)
+	public String randomSongRecommandDeleteGet(int idx, String songName) {
+		int res = adminService.setRandomSongRecommandDelete(idx);
+		
+		if(res != 0) return "redirect:/message/randomSongRecommandDeleteOk?songName="+songName;
+		else return "redirect:/message/randomSongRecommandDeleteNo?songName="+songName;
+	}
+	
+	// 랜덤노래추천 곡 수정
+	@RequestMapping(value = "/admin/adminRandomSongRecommandUpdate" , method = RequestMethod.POST)
+	public String randomSongRecommandUpdatePost(Model model, int idx, RandomSongRecommandVO vo) {
+		int res = adminService.setRecommandSongUpdate(idx, vo);
 		return res + "";
 	}
 	

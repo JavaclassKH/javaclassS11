@@ -19,17 +19,15 @@
     <div class="adminMemberList">
 	  <table class="table table-bordered">
 	  	<tr class="text-center table-hover">
-	  		<th style="width: 8%">순번</th>
-	  		<th style="width: 11%">아이디</th>
+	  		<th style="width: 15%">아이디</th>
 	  		<th style="width: 13%">닉네임</th>
-	  		<th style="width: 35%">제재사유</th>
+	  		<th style="width: 39%">제재사유</th>
 	  		<th style="width: 10%">시작일</th>
 	  		<th style="width: 10%">종료일</th>
 	  		<th style="width: 10%">제재부여자</th>
 	  	</tr>
 	  	<c:forEach var="vo" items="${vos}" varStatus="st">
 	  		<tr class="text-center" style="vertical-align: middle;">
-	  			<td>${vo.idx}</td>
 	  			<td>${vo.mid}</td>
 	  			<td>${vo.nickName}</td>
 	  			<td>${vo.blockReason}</td>

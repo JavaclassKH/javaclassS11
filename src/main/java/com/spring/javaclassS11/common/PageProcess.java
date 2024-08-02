@@ -33,14 +33,30 @@ public class PageProcess {
 			if(part.equals(""))	totRecCnt = boardDAO.totRecCnt("freeBoard");
 			else {
 				search = part;
-				//totRecCnt = noticeDAO.totRecCntSearch(search, searchString);
 			}
 		}
 		else if(section.equals("fromIVE")) {
 			if(part.equals(""))	totRecCnt = boardDAO.totRecCnt("fromIVE");
 			else {
 				search = part;
-				//totRecCnt = noticeDAO.totRecCntSearch(search, searchString);
+			}
+		}
+		else if(section.equals("toIVE")) {
+			if(part.equals(""))	totRecCnt = boardDAO.totRecCnt("toIVE");
+			else {
+				search = part;
+			}
+		}
+		else if(section.equals("songSuggestions")) {
+			if(part.equals(""))	totRecCnt = boardDAO.totRecCnt("songSuggestions");
+			else {
+				search = part;
+			}
+		}
+		else if(section.equals("choreographySuggestions")) {
+			if(part.equals(""))	totRecCnt = boardDAO.totRecCnt("choreographySuggestions");
+			else {
+				search = part;
 			}
 		}
 		

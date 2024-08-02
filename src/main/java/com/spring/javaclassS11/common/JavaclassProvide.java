@@ -6,8 +6,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -30,7 +33,7 @@ public class JavaclassProvide {
 	@Autowired
 	JavaMailSender mailSender;
 	
-	//urlPath에 파일 저장하는 메소드 : (업로드파일명, 저장할파일명, 저장할경로)
+	// urlPath에 파일 저장하는 메소드 : (업로드파일명, 저장할파일명, 저장할경로)
 	public void writeFile(MultipartFile fName, String sFileName, String urlPath) throws IOException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/"+urlPath+"/");
@@ -44,23 +47,27 @@ public class JavaclassProvide {
 		fos.close();
 	}
 
-	public void deleteFile(String photo, String urlPath) {}
+	public void deleteFile(String photo, String urlPath) throws FileNotFoundException {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/"+urlPath+"/");
+		
+		File file = new File(realPath + urlPath);
+		file.delete();
+		
+		
+	}
 	
 	//서버에 저장할 파일들의 이름을 가공(중복방지)
-	public String saveFileName(String oFileName) {
-		String fileName = "";
+	public String saveFileName(String oFileName, String mid) {
 		
-		Calendar cal = Calendar.getInstance();
-		fileName += cal.get(Calendar.YEAR);
-		fileName += cal.get(Calendar.MONTH) + 1;
-		fileName += cal.get(Calendar.DATE);
-		fileName += cal.get(Calendar.HOUR_OF_DAY);
-		fileName += cal.get(Calendar.MINUTE);
-		fileName += cal.get(Calendar.SECOND);
-		//fileName += cal.get(Calendar.MILLISECOND);
-		fileName += "_" + oFileName;
+		LocalDateTime now = LocalDateTime.now();        
+
+		String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmm"));    
+		
+		String uid = UUID.randomUUID().toString().substring(0,6);
+		String sFileName = mid + "_" + uid + "_" + formatedNow + "_" + oFileName;
 				
-		return fileName;
+		return sFileName;
 	}
 	
 	//메일 전송하기(아이디찾기, 비밀번호 찾기)
@@ -130,7 +137,7 @@ public class JavaclassProvide {
       FileInputStream  fis = new FileInputStream(oriFile);
       FileOutputStream fos = new FileOutputStream(copyFile);
 
-      byte[] buffer = new byte[2048];
+      byte[] buffer = new byte[4096];
       int count = 0;
       while((count = fis.read(buffer)) != -1) {
         fos.write(buffer, 0, count);
@@ -145,38 +152,41 @@ public class JavaclassProvide {
     }
   }
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
+
+
+
+
+
+
+
+/*
+		※ 프론트에서 파일 읽는 javascript 코드
+		let fName = document.getElementById("file").value;
+		if(fName.trim() != "") {
+			let ext = fName.substring(fName.lastIndexOf(".") + 1).toLowerCase();
+			let maxSize = 1024 * 1024 * 5;
+			let fileSize = document.getElementById("file").files[0].size;
+			
+			if(ext != 'jpg' && ext != 'gif' && ext != 'png') {
+				alert("그림파일만 업로드 가능합니다.");
+				return false;
+			}
+			else if(fileSize > maxSize) {
+				alert("업로드할 파일의 최대용량은 5MByte입니다.");
+				return false;
+			}
+		}
+
+
+*/
+
+
+
+
+
+
+
+
+
+

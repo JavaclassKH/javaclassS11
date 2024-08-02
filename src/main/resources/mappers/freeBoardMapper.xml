@@ -7,12 +7,24 @@
 	</select>
 
 	<select id="totRecCnt" resultType="int">
-	<if test="part == 'freeBoard'">
-		select count(*) from freeBoard;
-	</if>
-	<if test="part == 'fromIVE'">
-		select count(*) from fromIVE;
-	</if>
+		<if test="part == 'freeBoard'">
+			select count(*) from freeBoard;
+		</if>
+		<if test="part == 'fromIVE'">
+			select count(*) from fromIVE;
+		</if>
+		<if test="part == 'toIVE'">
+			select count(*) from toIVE;
+		</if>
+		<if test="part == 'songSuggestions'">
+			select count(*) from songSuggestions;
+		</if>
+		<if test="part == 'choreographySuggestions'">
+			select count(*) from choreographySuggestions;
+		</if>
+		<!-- <if test="part == 'selfContentSuggestions'">
+			select count(*) from selfContentSuggestions;
+		</if> -->
 	</select>
 	
 	<select id="getFreeBoardContent" resultType="com.spring.javaclassS11.vo.FreeBoardVO">
@@ -23,7 +35,21 @@
 		select * from fromIVE order by idx desc limit #{startIndexNo},#{pageSize};
 	</select>
 	
-
+	<select id="getFromIVEContent" resultType="com.spring.javaclassS11.vo.FromIVEVO">
+		select * from fromIVE where idx = #{idx};
+	</select>
+	
+	<select id="getToIVEList" resultType="com.spring.javaclassS11.vo.ToIVEVO">
+		select * from toIVE order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	
+	<select id="getToIVEContent" resultType="com.spring.javaclassS11.vo.ToIVEVO">
+		select * from toIVE where idx = #{idx};
+	</select>
+	
+	<select id="getBoardReplyList" resultType="com.spring.javaclassS11.vo.FreeBoardReplyVO">
+		select * from freeBoardReply where boardIdx = #{idx} order by idx desc;
+	</select>
 
 <!-- insert -->	
 	<insert id="setFreeBoardInput">
@@ -33,6 +59,10 @@
 	<insert id="setFromIVEInput">
 		insert into fromIVE values (default,#{vo.fromWho},#{vo.fromIVETitle},#{vo.fromIVEContent},default);		
 	</insert>
+	
+	<insert id="setFreeBoardReplyInput">
+		insert into freeBoardReply values (default,#{vo.boardIdx},#{vo.mid},#{vo.nickName},#{vo.content},default);		
+	</insert>
 
 <!-- update -->	
 	
@@ -41,7 +71,9 @@
 
 
 <!-- delete -->	
-
+	<delete id="setFreeBoardReplyDelete">
+		delete from freeBoardReply where idx = #{idx};
+	</delete>
 
 
 

@@ -39,6 +39,11 @@ public class PlayController {
 	@RequestMapping(value = "/play/randomSongRecommandSearch" , method = RequestMethod.POST)
 	public RandomSongRecommandVO randomSongRecommandSearchPost(Model model, String search) {
 		RandomSongRecommandVO vo = playService.getRandomSongRecommandSearch(search);
+		if(vo == null) {
+			RandomSongRecommandVO emptyVo = new RandomSongRecommandVO();
+			emptyVo.setSongName("empty");
+			return emptyVo;
+		}
 		return vo; 
 	}
 	

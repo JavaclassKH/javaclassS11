@@ -63,6 +63,8 @@ public interface AdminDAO {
 
 	public int setLobbyPostInsert(@Param("nickName") String nickName,@Param("post") String post);
 
-	public int setRecommandSongUpdate(@Param("idx") int idx,@Param("vo") RandomSongRecommandVO vo);
+	public int setRecommandSongUpdate(@Param("vo") RandomSongRecommandVO vo);
+
+	public int getSongData(@Param("idx") int idx);
 
 }

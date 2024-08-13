@@ -135,7 +135,7 @@
 		        ⊙ 문의사항
 		      </li>
 		      <li>
-		        <a href="javascript:alert('새로운 기능이 준비중입니다');">⊙ 준비중 1</a>
+		        <a href="${ctp}/etc/newArticle">⊙ 최신연예뉴스</a>
 		      </li>
 		      <li>
 		        <a href="javascript:alert('새로운 기능이 준비중입니다');">⊙ 준비중 2</a>

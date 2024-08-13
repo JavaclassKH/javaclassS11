@@ -16,7 +16,8 @@
 <div class="rightSide">
   <h1 class="text-center text-primary">원영적 사고</h1><br/>
   <br/><br/><br/><br/><p class="text-center"><b>구글 로그인 후 이용 가능합니다! <br/>(원영적 사고는 1일에 10회 가능)</b></p><br/><br/><br/>
-  <iframe src="https://lucky-vicky.vercel.app/" scrolling="no" style="overflow: hidden; border: none;"  width="100%" height="1050px"></iframe>
+  <iframe src="https://lucky-vicky.vercel.app/" scrolling="no" style="overflow: hidden; border: none;"
+  width="100%" height="1050px"></iframe>
 </div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp" />  
 </body>

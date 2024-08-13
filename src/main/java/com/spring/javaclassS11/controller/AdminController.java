@@ -3,8 +3,12 @@ package com.spring.javaclassS11.controller;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.mail.Session;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -106,12 +110,9 @@ public class AdminController {
 	// 선택회원 상세정보 보기
 	@RequestMapping(value = "/admin/adminMemberInfoWatch" , method = RequestMethod.GET)
 	public String adminMemberInfoWatchGet(Model model, @RequestParam int idx, 
-		@RequestParam(name = "flag", defaultValue = "1", required = false) int flag, 
-		@RequestParam(name = "mid", defaultValue = "", required = false) String mid) {
+		@RequestParam(name = "flag", defaultValue = "1", required = false) int flag) {
 		
-		MemberVO vo = null;
-		if(mid != "") vo = memberService.getMemberIdCheck(mid);
-		else vo = adminService.getAdminMemberInfo(idx);
+		MemberVO vo = adminService.getAdminMemberInfo(idx);
 		
 		model.addAttribute("vo", vo);
 		model.addAttribute("flag", flag);
@@ -237,22 +238,44 @@ public class AdminController {
 	
 	// 랜덤노래추천 곡 삭제
 	@RequestMapping(value = "/admin/adminRandomSongRecommandDelete" , method = RequestMethod.GET)
-	public String randomSongRecommandDeleteGet(int idx, String songName) {
+	public String randomSongRecommandDeletePost(int idx, String songName) {
 		int res = adminService.setRandomSongRecommandDelete(idx);
 		
 		if(res != 0) return "redirect:/message/randomSongRecommandDeleteOk?songName="+songName;
 		else return "redirect:/message/randomSongRecommandDeleteNo?songName="+songName;
 	}
 	
-	// 랜덤노래추천 곡 수정
+	// 랜덤노래추천 곡 수정화면
+	@RequestMapping(value = "/admin/adminRandomSongRecommandUpdate" , method = RequestMethod.GET)
+	public String randomSongRecommandUpdateGet(Model model, int idx) {
+		RandomSongRecommandVO vo = adminService.getRecommandSongList(idx);
+		model.addAttribute("vo", vo);
+		model.addAttribute("idx", idx);
+		return "admin/adminRandomSongRecommandUpdate";
+	}
+	
+	// 랜덤노래추천 곡 수정 실행
+	@ResponseBody
 	@RequestMapping(value = "/admin/adminRandomSongRecommandUpdate" , method = RequestMethod.POST)
-	public String randomSongRecommandUpdatePost(Model model, int idx, RandomSongRecommandVO vo) {
-		int res = adminService.setRecommandSongUpdate(idx, vo);
+	public String randomSongRecommandUpdatePost(RandomSongRecommandVO vo) {
+		int res = adminService.setRecommandSongUpdate(vo);
 		return res + "";
 	}
 	
 	
-	
+	public ResponseEntity<Map<String, String>> ExceptionHandler(Exception e) {
+		System.out.println("e : " + e.getMessage());
+
+		HttpHeaders responseHeaders = new HttpHeaders();
+		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("error type", httpStatus.getReasonPhrase());
+		map.put("code", "400");
+		map.put("message", "에러 발생");		
+		
+		return new ResponseEntity<Map<String,String>>(map, responseHeaders, httpStatus);
+	}
 	
 	
 	

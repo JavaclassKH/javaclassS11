@@ -43,10 +43,10 @@
 			type : "post",
 			data : {search:search},
 			success:function(vo) {
-				if(vo == null) {
+				if(vo.songName == "empty") {
 					alert("검색된 곡이 없습니다");
 					$("#search").val("");	
-					location.reload();
+					return false;
 				}
 				else {
 					recAlbumImg = vo.recAlbumImg;
@@ -79,6 +79,7 @@
 			type : "post",
 			success:function(vo) {
 				recAlbumImg = vo.recAlbumImg;
+
 				if(recAlbumImg.indexOf("<iframe") == -1) {
 					recAlbumImg = "<img src='${ctp}/images/"+recAlbumImg+"' width='100%' height='650px' />";											
 				}

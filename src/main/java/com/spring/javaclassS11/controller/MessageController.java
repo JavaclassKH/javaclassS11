@@ -159,6 +159,14 @@ public class MessageController {
 			model.addAttribute("msg", "to.IVE 게시판은 정회원 이상 입장 가능합니다");
 			model.addAttribute("url", "board/freeBoard");
 		}
+		else if(msgFlag.equals("songSuggestionsLevel4")) {
+			model.addAttribute("msg", "노래제안게시판은 우수회원 이상 입장 가능합니다");
+			model.addAttribute("url", "board/freeBoard");
+		}
+		else if(msgFlag.equals("choreographySuggestionsLevel4")) {
+			model.addAttribute("msg", "안무제안게시판은 우수회원 이상 입장 가능합니다");
+			model.addAttribute("url", "board/freeBoard");
+		}
 		else if(msgFlag.equals("songSuggestionsInputOk")) {
 			model.addAttribute("msg", "노래제안이 등록되었습니다");
 			model.addAttribute("url", "suggestions/songSuggestions");
@@ -167,10 +175,6 @@ public class MessageController {
 			model.addAttribute("msg", "노래제안이 등록에 실패하였습니다");
 			model.addAttribute("url", "suggestions/songSuggestionsInput");
 		}
-		else if(msgFlag.equals("songSuggestionsLevel4")) {
-			model.addAttribute("msg", "노래제안게시판은 우수회원 이상 입장 가능합니다");
-			model.addAttribute("url", "board/freeBoard");
-		}
 		else if(msgFlag.equals("randomSongRecommandDeleteOk")) {
 			model.addAttribute("msg", "랜덤노래추천 목록에서 곡 ["+songName+"] 이 삭제되었습니다");
 			model.addAttribute("url", "admin/adminRandomSongRecommand");
@@ -178,10 +182,6 @@ public class MessageController {
 		else if(msgFlag.equals("randomSongRecommandDeleteNo")) {
 			model.addAttribute("msg", "랜덤노래추천 목록에서 곡 ["+songName+"] 삭제에 실패하였습니다");
 			model.addAttribute("url", "admin/adminRandomSongRecommand");
-		}
-		else if(msgFlag.equals("choreographySuggestionsLevel4")) {
-			model.addAttribute("msg", "안무제안게시판은 우수회원 이상 입장 가능합니다");
-			model.addAttribute("url", "board/freeBoard");
 		}
 		else if(msgFlag.equals("choreographySuggestionsInputOk")) {
 			model.addAttribute("msg", "안무제안이 등록되었습니다");
@@ -200,3 +200,30 @@ public class MessageController {
 	}
 	
 }
+
+
+
+/*
+
+	public ResponseEntity<Map<String, String>> ExceptionHandler(Exception e) {
+		System.out.println("e : " + e.getMessage());
+
+		HttpHeaders responseHeaders = new HttpHeaders();
+		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("error type", httpStatus.getReasonPhrase());
+		map.put("code", "400");
+		map.put("message", "에러 발생");		
+		
+		return new ResponseEntity<Map<String,String>>(map, responseHeaders, httpStatus);
+	}
+
+*/
+
+
+
+
+
+
+

@@ -61,7 +61,10 @@ public interface AdminService {
 
 	public int setLobbyPostInsert(String nickName, String post);
 
-	public int setRecommandSongUpdate(int idx, RandomSongRecommandVO vo);
+	public int setRecommandSongUpdate(RandomSongRecommandVO vo);
+
+	public int getSongData(int idx);
+
 
 
 

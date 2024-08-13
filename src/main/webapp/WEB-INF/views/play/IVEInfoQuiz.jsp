@@ -108,7 +108,7 @@
 	</div>
 	<div id="start" style="display: none;">
 		<p style="margin-top: 20px; margin-bottom: 150px; text-align: center;">
-			아이브 상식 퀴즈 도전중~ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="timer"></span><br/>
+			&nbsp;&nbsp;&nbsp;<b><span style="color: purple; margin-top: 25px;">아이브 상식 퀴즈 도전중~</span></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="timer"></span><br/>
 		</p>
 		<p class="text-center" style="margin-bottom: 40px;">문제 : ${vo.quizQuestion}</p><br/>
 		<div class="text-center">

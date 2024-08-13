@@ -51,6 +51,8 @@
 			<c:if test="${vo.memLevel == 4}">우수회원</c:if> 
 			<c:if test="${vo.memLevel == 3}">정회원</c:if> 
 			<c:if test="${vo.memLevel == 2}">준회원</c:if> 
+			<c:if test="${vo.memLevel == 1}">휴면회원</c:if> 
+			<c:if test="${vo.memLevel == 99}">제재회원</c:if> 
 		</p><br/> 
 		<p>이름 :&nbsp; ${vo.name}</p><br/> 
 		<p>생년월일 :&nbsp; ${vo.birthday}</p><br/> 

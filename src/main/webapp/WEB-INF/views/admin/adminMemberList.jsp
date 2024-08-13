@@ -177,7 +177,7 @@
 		else $("#adminMemberBlockManagement").hide();		
 	}
 	
-	// 게제재기간 부여,조정 제거 실행하기
+	// 제재기간 부여,조정 제거 실행하기
 	function adminMemberBlockManagement(str) {
 		let blockDatestr = $("#blockEndDate").val();
 		let idx = $("#idx").val();

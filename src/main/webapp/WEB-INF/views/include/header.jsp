@@ -67,17 +67,6 @@
       <img src="${ctp}/resources/images/HeaderImg.png" id="headerImg" />     
      	<span id="introduce"><b>아이브 비공식 팬사이트 - Second DIVE</b></span>
       <nav class="nav">
-				<c:if test="${empty sMid || !empty sMid}">
-					<span style="display: none;">
-		      	<li><a class="btn btn-light btn-sm" href="javascript:cursorModeChange(1)">달이</a></li> &nbsp;
-		      	<li><a class="btn btn-light btn-sm" href="javascript:cursorModeChange(2)">강안지</a></li> &nbsp;
-		      	<li><a class="btn btn-light btn-sm" href="javascript:cursorModeChange(3)">나오리</a></li> &nbsp;
-		      	<li><a class="btn btn-light btn-sm" href="javascript:cursorModeChange(4)">체리</a></li> &nbsp;
-		      	<li><a class="btn btn-light btn-sm" href="javascript:cursorModeChange(5)">치즈</a></li> &nbsp;
-		      	<li><a class="btn btn-light btn-sm" href="javascript:cursorModeChange(6)">이랑이</a></li> &nbsp;
-		      	<li><a class="btn btn-light btn-sm" href="javascript:cursorModeChange(0)">일반</a></li> &nbsp;
-	      	</span>
-				</c:if>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       	<c:if test="${sLevel == 112 || sLevel == 113 || sLevel == 114}">
       		<li><button onclick="adminLobby()" class="btn btn-link"><font color="black">관리자모드</font></button></li> &nbsp;&nbsp;
       	</c:if>

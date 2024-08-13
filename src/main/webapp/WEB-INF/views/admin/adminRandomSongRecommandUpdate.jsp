@@ -20,7 +20,6 @@
 		let genre = randomSongManagementForm.genre.value;
 		let recAlbumImg = randomSongManagementForm.recAlbumImg.value;
 		let recVibe = randomSongManagementForm.recVibe.value;
-		
 		if(songName.trim() == "") {
 			alert("노래 제목을 입력하세요!");
 			$("#songName").focus();
@@ -56,13 +55,13 @@
 		}
 		
 		let recommandSong = {
-				songName: songName,
-				singer: singer,
-				genre: genre,
-				recAlbumImg: recAlbumImg,
-				recVibe: recVibe
+			songName: songName,
+			singer: singer,
+			genre: genre,
+			recAlbumImg: recAlbumImg,
+			recVibe: recVibe,
+			idx : ${idx}
 		}
-		
 		$.ajax({
 			url : "${ctp}/admin/adminRandomSongRecommandUpdate",
 			type : "post",
@@ -88,6 +87,7 @@
 	// 노래 미리보기 아래에 표시
 	$(document).ready(function(){
 		if('${vo}' != null) {
+			/** ※DB의 recAlbumImg 값에 ${ctp}가 들어가있으므로 $ 문제로 사진이 나오지 않음!! 이 부분 해결하기!! */
 			$("#songPreview").html('${vo.recAlbumImg}');
 			$("#iframeCode").text('${vo.recAlbumImg}');
 		}
@@ -134,7 +134,7 @@
 				</div>
 				<input type="text" name="recAlbumImg" id="recAlbumImg" class="form-control mb-5" required /><br/>
 			</div>
-			<div class="text-center"><b> ■ 입력되어있는 링크 ■ </b></div><br/>
+			<div class="text-center"><b> ■ 입력되어있는 링크 ■ <br/>(링크 미수정시 다시 붙여넣어주세요)</b></div><br/>
 			<div><span id="iframeCode"></span></div><br/><br/>
 		</form>
 		<div class="text-center">

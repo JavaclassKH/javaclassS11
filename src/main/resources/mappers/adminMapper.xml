@@ -122,7 +122,7 @@
 	</update>
 	
 	<update id="setRecommandSongUpdate">
-		update randomSongRecommand set songName = #{vo.songName}, songName = #{vo.songName}, genre = #{vo.genre}, recAlbumImg = #{vo.recAlbumImg}, recVibe = #{vo.recVibe} where idx = #{idx};		
+		update randomSongRecommand set songName = #{vo.songName}, songName = #{vo.songName}, genre = #{vo.genre}, recAlbumImg = #{vo.recAlbumImg}, recVibe = #{vo.recVibe} where idx = #{vo.idx};		
 	</update>
 
 <!-- delete -->	

@@ -56,11 +56,9 @@ public class AdminServiceImpl implements AdminService {
 
 	// 랜덤노래추천 노래 추가
 	@Override public int setRandomSongRecommandInput(RandomSongRecommandVO vo) { 
-	
 		String size = vo.getRecAlbumImg().replace("width=\"560\" ", "width=\"100%\" ");
 		size = size.replace("height=\"315\"", "height=\"645\"");
 		vo.setRecAlbumImg(size);		
-		
 		return adminDAO.setRandomSongRecommandInput(vo);
 	}
 
@@ -126,8 +124,27 @@ public class AdminServiceImpl implements AdminService {
 	// 랜덤노래추천 선택곡 수정하기
 	@Override public RandomSongRecommandVO getRecommandSongList(int idx) { return adminDAO.getRecommandSongList(idx); }
 
-	// 랜덤노래추천 선택곡 수정하기
-	@Override public int setRecommandSongUpdate(int idx, RandomSongRecommandVO vo) { return adminDAO.setRecommandSongUpdate(idx, vo); }
+	// 랜덤노래추천 선택곡 수정하기	
+	@Override	public int getSongData(int idx) { return adminDAO.getSongData(idx); }
+
+	// 랜덤노래추천 선택곡 수정 실행
+	@Override public int setRecommandSongUpdate(RandomSongRecommandVO vo) { 
+	
+		// <img src=/javaclassS11/images/noImage.jpg width=100% height=645> 이런 형식으로 저장되어야 noImage가 정상적으로 나온다!
+		if(vo.getRecAlbumImg().equals("noImage.jpg")) {
+			vo.setRecAlbumImg("<img src='${ctp}/images/noImage.jpg' width='100%' height='645' />");
+			return adminDAO.setRecommandSongUpdate(vo); 
+		}
+		else {
+			String size = vo.getRecAlbumImg().replace("width=\"560\" ", "width=\"100%\" ");
+			size = size.replace("height=\"315\"", "height=\"645\"");
+			vo.setRecAlbumImg(size);		
+			return adminDAO.setRecommandSongUpdate(vo); 
+		}
+		
+	}
+	
+
 
 	
 
